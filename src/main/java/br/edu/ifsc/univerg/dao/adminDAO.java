@@ -14,6 +14,7 @@ public class adminDAO {
 		try {
 			con = Conexao.abrir();
 			String sql = "INSERT INTO admin(nome,login,senha) VALUES(?,?,?)";
+			//TEST
 			try {
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, am.getNome());
