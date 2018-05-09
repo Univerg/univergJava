@@ -10,7 +10,11 @@ public AdminModel(String nome, String login, String senha) {
 	this.login = login;
 	this.senha = senha;
 }
-
+public AdminModel(String nome, String login) {
+	super();
+	this.nome = nome;
+	this.login = login;
+}
 public String getNome() {
 	return nome;
 }
@@ -28,6 +32,11 @@ public String getSenha() {
 }
 public void setSenha(String senha) {
 	this.senha = senha;
+}
+
+@Override
+public String toString() {
+	return "AdminModel [nome=" + nome + ", login=" + login + ", senha=" + senha + "]";
 }
 
 

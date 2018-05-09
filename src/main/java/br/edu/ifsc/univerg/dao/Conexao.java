@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 public class Conexao {
 
-    private static final String USUARIO = "id5621430_root";
-    private static final String SENHA = "umasenhaqualquer@";
-    private static final String URL = "jdbc:mysql://databases.000webhost.com:3306/id5621430_univerg";
+    private static final String USUARIO = "root";
+    private static final String SENHA = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/univerg";
     private static final String DRIVER = "com.mysql.jdbc.Driver";
 
     // Conectar ao banco
