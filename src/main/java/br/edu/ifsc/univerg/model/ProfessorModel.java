@@ -31,6 +31,10 @@ public class ProfessorModel {
 		this.login = login;
 		this.senha = senha;
 	}
+	public ProfessorModel(String nome, String matricula) {
+		this.nome = nome;
+		this.matricula = matricula;
+	}
 	public String getNome() {
 		return nome;
 	}
