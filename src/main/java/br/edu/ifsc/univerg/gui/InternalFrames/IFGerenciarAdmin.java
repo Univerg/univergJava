@@ -7,6 +7,8 @@ import com.towel.swing.img.JImagePanel;
 
 import br.edu.ifsc.univerg.dao.adminDAO;
 import br.edu.ifsc.univerg.model.AdminModel;
+import br.edu.ifsc.univerg.model.AuxClass;
+
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -29,6 +31,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -63,15 +66,14 @@ public class IFGerenciarAdmin extends JInternalFrame {
 
 	/**
 	 * Launch the application.
-
-
-	/**
-	 * Create the frame.
-	 * @throws Throwable 
+	 * 
+	 * 
+	 * /** Create the frame.
+	 * 
+	 * @throws Throwable
 	 */
 	public IFGerenciarAdmin() throws Throwable {
-		((javax.swing.plaf.basic.BasicInternalFrameUI) 
-				getUI()).setNorthPane(null);
+		((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).setNorthPane(null);
 		setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
@@ -79,25 +81,25 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		rowSorter = new TableRowSorter<TableModel>(jtTabela.getModel());
 		jtTabela.setRowSorter(rowSorter);
 		carrefartabela();
-		
 
 	}
+
 	private void carrefartabela() {
-		
+
 		adminDAO admin = new adminDAO();
 		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
 
 		// limpa a tabela
 		model.setRowCount(0);
-		 List<AdminModel> dados = admin.selectAdmin();
+		List<AdminModel> dados = admin.selectAdmin();
 
 		// carrega pessoas da lista
 		for (AdminModel am : dados) {
 			// inclui uma linha na tabela
-			model.addRow(
-					new Object[] { am.getNome(), am.getLogin(),am.getSenha() });
+			model.addRow(new Object[] { am.getNome(), am.getLogin(), am.getSenha() });
 		}
 	}
+
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -109,13 +111,16 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return imagePanel;
 	}
+
 	private static BufferedImage loadImage(String file) throws IOException {
 		return ImageIO.read(new File(file));
 	}
-	private JImagePanel getJpCadastro()  throws IOException{
+
+	private JImagePanel getJpCadastro() throws IOException {
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null,
+					new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
 			jpCadastro.add(getJtfNome());
@@ -132,10 +137,12 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jpCadastro;
 	}
-	private JImagePanel getJpRemoverAtualizar()  throws IOException{
+
+	private JImagePanel getJpRemoverAtualizar() throws IOException {
 		if (jpRemoverAtualizar == null) {
 			jpRemoverAtualizar = new JImagePanel(loadImage("panel.png"));
-			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING,
+					TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpRemoverAtualizar.setBounds(19, 308, 1008, 300);
 			jpRemoverAtualizar.setLayout(null);
 			jpRemoverAtualizar.add(getTextField());
@@ -146,6 +153,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jpRemoverAtualizar;
 	}
+
 	private JButton getJbVoltar() {
 		if (jbVoltar == null) {
 			jbVoltar = new JButton("Voltar");
@@ -161,6 +169,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
+
 	private JTextField getJtfNome() {
 		if (jtfNome == null) {
 			jtfNome = new JTextField();
@@ -169,6 +178,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jtfNome;
 	}
+
 	private JTextField getJtfLogin() {
 		if (jtfLogin == null) {
 			jtfLogin = new JTextField();
@@ -177,6 +187,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jtfLogin;
 	}
+
 	private JPasswordField getJtfSenha() {
 		if (jtfSenha == null) {
 			jtfSenha = new JPasswordField();
@@ -184,6 +195,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jtfSenha;
 	}
+
 	private JLabel getJlbNome() {
 		if (jlbNome == null) {
 			jlbNome = new JLabel("Nome:");
@@ -193,6 +205,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jlbNome;
 	}
+
 	private JLabel getJlbLogin() {
 		if (jlbLogin == null) {
 			jlbLogin = new JLabel("Login:");
@@ -202,6 +215,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jlbLogin;
 	}
+
 	private JLabel getJlbSenha() {
 		if (jlbSenha == null) {
 			jlbSenha = new JLabel("Senha:");
@@ -211,6 +225,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jlbSenha;
 	}
+
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
@@ -220,18 +235,23 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jbtSalvar.setBounds(860, 212, 122, 38);
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					AdminModel admin = new AdminModel(
-							jtfNome.getText(), 
-							jtfLogin.getText(), 
-							String.valueOf(jtfSenha.getPassword()));
 					adminDAO dao = new adminDAO();
-					dao.incluir(admin);	
-					carrefartabela();
+					AdminModel admin = new AdminModel(jtfNome.getText(), jtfLogin.getText(),
+							String.valueOf(jtfSenha.getPassword()));
+
+					if (AuxClass.getVal() != true) {
+						dao.incluir(admin);
+						carrefartabela();
+					} else {
+						dao.alterarAdmin(admin, AuxClass.getAux());
+						carrefartabela();
+					}
 				}
 			});
 		}
 		return jbtSalvar;
 	}
+
 	private JButton getJbtNovo() {
 		if (jbtNovo == null) {
 			jbtNovo = new JButton("Novo");
@@ -242,6 +262,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jbtNovo;
 	}
+
 	private JTextField getTextField() {
 		if (jtfBusca == null) {
 			jtfBusca = new JTextField();
@@ -269,13 +290,14 @@ public class IFGerenciarAdmin extends JInternalFrame {
 				}
 
 				public void changedUpdate(DocumentEvent e) {
-					throw new UnsupportedOperationException("Not supported yet."); 
+					throw new UnsupportedOperationException("Not supported yet.");
 				}
 			});
 			jtfBusca.setColumns(10);
 		}
 		return jtfBusca;
 	}
+
 	private JLabel getJlBuscar() {
 		if (jlBuscar == null) {
 			jlBuscar = new JLabel("Buscar:");
@@ -285,6 +307,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jlBuscar;
 	}
+
 	private JTextField getJtfId() {
 		if (jtfId == null) {
 			jtfId = new JTextField();
@@ -294,6 +317,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jtfId;
 	}
+
 	private JLabel getJlId() {
 		if (jlId == null) {
 			jlId = new JLabel("Id:");
@@ -303,6 +327,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jlId;
 	}
+
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
@@ -310,9 +335,30 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jbtAlterar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtAlterar.setBackground(new Color(0, 153, 51));
 			jbtAlterar.setBounds(725, 24, 122, 38);
+			jbtAlterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					AuxClass.setVal(true);
+					DefaultTableModel tableModel = (
+					DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					AuxClass.setAux(tableModel.getValueAt(row, 1).toString());
+					adminDAO admin = new adminDAO();
+					admin.buscarAlteracoes();
+					List<AdminModel> dados = admin.buscarAlteracoes();
+					for (AdminModel adm : dados) {
+						jtfNome.setText(adm.getNome());
+						jtfLogin.setText(adm.getLogin());
+						jtfSenha.setText(adm.getSenha());
+					}
+
+				}
+			});
 		}
 		return jbtAlterar;
+
 	}
+
 	private JButton getJbtDeletar() {
 		if (jbtDeletar == null) {
 			jbtDeletar = new JButton("Deletar");
@@ -321,20 +367,21 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jbtDeletar.setBackground(new Color(0, 153, 51));
 			jbtDeletar.setBounds(860, 24, 122, 38);
 			jbtDeletar.addActionListener(new ActionListener() {
-				
+
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					adminDAO ad= new adminDAO();
+					adminDAO ad = new adminDAO();
 					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
 					int row = jtTabela.getSelectedRow();
 					ad.excluirAdmin(tableModel.getValueAt(row, 1).toString());
 					carrefartabela();
-					
+
 				}
 			});
 		}
 		return jbtDeletar;
 	}
+
 	private JScrollPane getJspTabela() {
 		if (jspTabela == null) {
 			jspTabela = new JScrollPane();
@@ -343,28 +390,22 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jspTabela;
 	}
+
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
-			jtTabela.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Nome:", "Login:"
-				}
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, String.class
-				};
+			jtTabela.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome:", "Login:" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class };
+
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-				boolean[] columnEditables = new boolean[] {
-					false, false
-				};
+
+				boolean[] columnEditables = new boolean[] { false, false };
+
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
@@ -376,6 +417,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		}
 		return jtTabela;
 	}
+
 	private JPasswordField getJtfSenha2() {
 		if (jtfSenha2 == null) {
 			jtfSenha2 = new JPasswordField();
