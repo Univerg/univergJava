@@ -4,27 +4,42 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.ProfessorDAO;
+import br.edu.ifsc.univerg.model.AuxClass;
+import br.edu.ifsc.univerg.model.ProfessorModel;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 
@@ -41,7 +56,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JLabel jlbSenha;
 	private JButton jbtSalvar;
 	private JButton jbtNovo;
-	private JTextField textField;
+	private JTextField jtfBusca;
 	private JLabel jlBuscar;
 	private JTextField jtfId;
 	private JLabel jlId;
@@ -70,6 +85,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JLabel jlMatricula;
 	private JTextField jtfMatricula;
 	private JTextField jtfEspecializacao;
+	private TableRowSorter<TableModel> rowSorter;
 
 	/**
 	 * Launch the application.
@@ -86,7 +102,24 @@ public class IFGerenciarProfessor extends JInternalFrame {
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
+		rowSorter = new TableRowSorter<TableModel>(jtTabela.getModel());
+		jtTabela.setRowSorter(rowSorter);
+		tabela();
+	}
+	public void tabela(){
+		ProfessorDAO professor = new ProfessorDAO();
+		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
 
+		// limpa a tabela
+		model.setRowCount(0);
+		 List<ProfessorModel> dados = professor.selectProfessor();
+
+		// carrega pessoas da lista
+		for (ProfessorModel pr : dados) {
+			// inclui uma linha na tabela
+			model.addRow(
+					new Object[] { pr.getNome(), pr.getMatricula() });
+	}
 	}
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
@@ -228,9 +261,52 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
 			jbtSalvar.setBounds(860, 212, 122, 38);
+			jbtSalvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ProfessorModel professor = new ProfessorModel(jtfNome.getText(),
+							jtfCpf.getText(), 
+							jtfRg.getText(), 
+							jtfTelefone.getText(), 
+							jtfCep.getText(), 
+							jtfNasc.getText(), 
+							jtfEndereco.getText(), 
+							jtfCidade.getText(), 
+							jtfEmail.getText(), 
+							jtfEspecializacao.getText(), 
+							jtfLogin.getText(), 
+							String.valueOf(jtfSenha.getPassword())
+							);
+					if (AuxClass.getVal()!=true){
+					try {
+						ProfessorDAO professorDao = new ProfessorDAO();
+						professorDao.incluir(professor);
+						JOptionPane.showMessageDialog(null, "Professor Cadastrado!");
+						tabela();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+					else {
+						
+						try {
+							ProfessorDAO professorDao = new ProfessorDAO();
+							professorDao.alterarProfessor(professor,AuxClass.getAux());
+							JOptionPane.showMessageDialog(null, "Professor Alterado!");
+							tabela();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					new AuxClass();
+				}
+				
+				
+			});
+			
 		}
 		return jbtSalvar;
 	}
+	
 	private JButton getJbtNovo() {
 		if (jbtNovo == null) {
 			jbtNovo = new JButton("Novo");
@@ -242,12 +318,35 @@ public class IFGerenciarProfessor extends JInternalFrame {
 		return jbtNovo;
 	}
 	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(92, 36, 621, 28);
+		if (jtfBusca == null) {
+			jtfBusca = new JTextField();
+			jtfBusca.setColumns(10);
+			jtfBusca.setBounds(92, 36, 621, 28);
+			jtfBusca.getDocument().addDocumentListener(new DocumentListener() {
+				public void insertUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+					if (text.trim().length() == 0) {
+						rowSorter.setRowFilter(null);
+					} else {
+						rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+				}
+				public void removeUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+
+					if (text.trim().length() == 0) {
+						rowSorter.setRowFilter(null);
+					} else {
+						rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+				}
+				public void changedUpdate(DocumentEvent e) {
+					throw new UnsupportedOperationException("Not supported yet."); 
+				}
+			});
+			jtfBusca.setColumns(10);
 		}
-		return textField;
+		return jtfBusca;
 	}
 	private JLabel getJlBuscar() {
 		if (jlBuscar == null) {
@@ -279,6 +378,37 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
+			jbtAlterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					AuxClass.setVal(true);
+					DefaultTableModel tableModel = (
+					DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					AuxClass.setAux(tableModel.getValueAt(row, 1).toString());
+					ProfessorDAO professor = new ProfessorDAO();
+					professor.buscarAlteracoes();
+					 List<ProfessorModel> dados = professor.buscarAlteracoes();
+						// carrega pessoas da lista
+					 //test
+					 //
+						for (ProfessorModel pr : dados) {
+							// inclui uma linha na tabela
+							jtfNome.setText( pr.getNome());
+							jtfCpf.setText(pr.getCpf());
+							jtfRg.setText(pr.getRg());
+							jtfTelefone.setText(pr.getFone());
+							jtfCep.setText(pr.getCep());
+							jtfNasc.setText(pr.getNascimento());
+							jtfEndereco.setText(pr.getEndereco());
+							jtfCidade.setText(pr.getCidade());
+							jtfEmail.setText(pr.getEmail());
+							jtfEspecializacao.setText(pr.getEspecializacao());
+							jtfLogin.setText(pr.getLogin());
+							jtfSenha.setText(pr.getSenha());
+							
+					}
+				}
+			});
 			jbtAlterar.setForeground(Color.WHITE);
 			jbtAlterar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtAlterar.setBackground(new Color(0, 153, 51));
@@ -289,6 +419,16 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JButton getJbtDeletar() {
 		if (jbtDeletar == null) {
 			jbtDeletar = new JButton("Deletar");
+			jbtDeletar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ProfessorDAO professor = new ProfessorDAO();
+					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					professor.excluir_Professor(tableModel.getValueAt(row, 1).toString());
+					JOptionPane.showMessageDialog(null, "Professor Deletado!");
+					tabela();
+				}
+			});
 			jbtDeletar.setForeground(Color.WHITE);
 			jbtDeletar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtDeletar.setBackground(new Color(0, 153, 51));
