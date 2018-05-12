@@ -389,6 +389,8 @@ public class IFGerenciarProfessor extends JInternalFrame {
 					professor.buscarAlteracoes();
 					 List<ProfessorModel> dados = professor.buscarAlteracoes();
 						// carrega pessoas da lista
+					 //test
+					 //
 						for (ProfessorModel pr : dados) {
 							// inclui uma linha na tabela
 							jtfNome.setText( pr.getNome());
