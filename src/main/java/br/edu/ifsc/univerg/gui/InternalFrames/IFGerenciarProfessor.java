@@ -6,6 +6,7 @@ import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
 
 import br.edu.ifsc.univerg.dao.ProfessorDAO;
+import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
 
 import java.awt.image.BufferedImage;
@@ -272,10 +273,10 @@ public class IFGerenciarProfessor extends JInternalFrame {
 							jtfCidade.getText(), 
 							jtfEmail.getText(), 
 							jtfEspecializacao.getText(), 
-							jtfMatricula.getText(), 
 							jtfLogin.getText(), 
 							String.valueOf(jtfSenha.getPassword())
 							);
+					if (AuxClass.getVal()!=true){
 					try {
 						ProfessorDAO professorDao = new ProfessorDAO();
 						professorDao.incluir(professor);
@@ -285,7 +286,23 @@ public class IFGerenciarProfessor extends JInternalFrame {
 						e1.printStackTrace();
 					}
 				}
+					else {
+						
+						try {
+							ProfessorDAO professorDao = new ProfessorDAO();
+							professorDao.alterarProfessor(professor,AuxClass.getAux());
+							JOptionPane.showMessageDialog(null, "Professor Alterado!");
+							tabela();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					new AuxClass();
+				}
+				
+				
 			});
+			
 		}
 		return jbtSalvar;
 	}
@@ -363,7 +380,31 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jbtAlterar = new JButton("Alterar");
 			jbtAlterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					AuxClass.setVal(true);
+					DefaultTableModel tableModel = (
+					DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					AuxClass.setAux(tableModel.getValueAt(row, 1).toString());
+					ProfessorDAO professor = new ProfessorDAO();
+					professor.buscarAlteracoes();
+					 List<ProfessorModel> dados = professor.buscarAlteracoes();
+						// carrega pessoas da lista
+						for (ProfessorModel pr : dados) {
+							// inclui uma linha na tabela
+							jtfNome.setText( pr.getNome());
+							jtfCpf.setText(pr.getCpf());
+							jtfRg.setText(pr.getRg());
+							jtfTelefone.setText(pr.getFone());
+							jtfCep.setText(pr.getCep());
+							jtfNasc.setText(pr.getNascimento());
+							jtfEndereco.setText(pr.getEndereco());
+							jtfCidade.setText(pr.getCidade());
+							jtfEmail.setText(pr.getEmail());
+							jtfEspecializacao.setText(pr.getEspecializacao());
+							jtfLogin.setText(pr.getLogin());
+							jtfSenha.setText(pr.getSenha());
+							
+					}
 				}
 			});
 			jbtAlterar.setForeground(Color.WHITE);

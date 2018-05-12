@@ -11,11 +11,11 @@ public class ProfessorModel {
 	private String cidade;
 	private String email;
 	private String especializacao;
-	private String matricula;
 	private String login;
 	private String senha;
+	private String matricula;
 	public ProfessorModel(String nome, String cpf, String rg, String fone, String cep, String nascimento,
-			String endereco, String cidade, String email, String especializacao, String matricula, String login,
+			String endereco, String cidade, String email, String especializacao, String login,
 			String senha) {
 		this.nome = nome;
 		this.cpf = cpf;
@@ -27,13 +27,17 @@ public class ProfessorModel {
 		this.cidade = cidade;
 		this.email = email;
 		this.especializacao = especializacao;
-		this.matricula = matricula;
 		this.login = login;
 		this.senha = senha;
 	}
+	
 	public ProfessorModel(String nome, String matricula) {
 		this.nome = nome;
 		this.matricula = matricula;
+	}
+
+	public ProfessorModel(String nome) {
+		this.nome = nome;
 	}
 	public String getNome() {
 		return nome;

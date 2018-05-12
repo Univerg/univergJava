@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import br.edu.ifsc.univerg.dao.Conexao;
+import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
 
 public class ProfessorDAO {
@@ -71,6 +75,47 @@ public class ProfessorDAO {
 	       
 	       return result;
 	   }
+	public List<ProfessorModel> buscarAlteracoes(){
+		
+		   Connection con;
+		   List<ProfessorModel> result = new ArrayList<ProfessorModel>();
+		try {
+			con =  Conexao.abrir();			
+		       try {
+		           Statement st = con.createStatement();
+		           ResultSet rs = st.executeQuery("SELECT nome,cpf,rg,fone,cep,nascimento,endereco,cidade,email,especializacao,login,senha FROM professor WHERE CONCAT (prefix,id)=  '"+AuxClass.getAux()+"'");
+		           
+		           while(rs.next()){
+		        	   ProfessorModel am = new ProfessorModel(
+		                       rs.getString("nome"), 
+		                       rs.getString("cpf"),
+		                       rs.getString("rg"), 
+		                       rs.getString("fone"),
+		                       rs.getString("cep"), 
+		                       rs.getString("nascimento"),
+		                       rs.getString("endereco"), 
+		                       rs.getString("cidade"),
+		                       rs.getString("email"), 
+		                       rs.getString("especializacao"),
+		                       rs.getString("login"), 
+		                       rs.getString("senha")
+		               );
+		               result.add(am);
+		           }
+		           rs.close();
+		           st.close();
+		           
+		       } catch (Exception e) {
+		           e.printStackTrace();
+		       }
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		     
+	       System.out.println(result);
+	       return result;
+	   }
 	public void excluir_Professor (String matricula){
 		   Connection con;
 		try {
@@ -83,6 +128,40 @@ public class ProfessorDAO {
 		   		ps.close();
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   	
+	   }
+	public void alterarProfessor ( ProfessorModel professor ,String var){
+		   Connection con;
+		try {
+			con = Conexao.abrir();
+			String sql = "UPDATE professor SET nome = ?, cpf = ?, rg = ?, fone = ?, cep = ?, nascimento = ?"+
+			",endereco=?, cidade=?, email=? ,especializacao=?, login=?, senha=?  WHERE  CONCAT (prefix,id)=?";
+		   	try {
+		   		PreparedStatement ps = con.prepareStatement(sql);
+		   		ps.setString(1, professor.getNome());
+		   		ps.setString(2, professor.getCpf());
+		   		ps.setString(3, professor.getRg());
+		   		ps.setString(4, professor.getFone());
+		   		ps.setString(5, professor.getCep());
+		   		ps.setString(6, professor.getNascimento());
+		   		ps.setString(7, professor.getEndereco());
+		   		ps.setString(8, professor.getCidade());
+		   		ps.setString(9, professor.getEmail());
+		   		ps.setString(10, professor.getEspecializacao());
+		   		ps.setString(11, professor.getLogin());
+		   		ps.setString(12, professor.getSenha());
+		   		ps.setString(13, var);
+		   		ps.execute();
+		   		ps.close();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					// TODO: handle exception
 				}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
