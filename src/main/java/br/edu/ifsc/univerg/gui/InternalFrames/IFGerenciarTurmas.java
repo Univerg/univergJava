@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.TurmaDAO;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
@@ -46,9 +50,9 @@ public class IFGerenciarTurmas extends JInternalFrame {
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
-	private JComboBox comboBox;
+	private JComboBox jcbTurno;
 	private JLabel jlTurno;
-	private JComboBox comboBox_1;
+	private JComboBox jcbCurso;
 	private JLabel jlCurso;
 
 	/**
@@ -68,6 +72,14 @@ public class IFGerenciarTurmas extends JInternalFrame {
 		getContentPane().add(getImagePanel());
 
 	}
+	private void boxCursos() {
+		TurmaDAO dao = new TurmaDAO();
+		jcbCurso.removeAllItems();
+		jcbCurso.addItem("");
+		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_curso().toArray());
+		jcbCurso.setModel(defaultComboBox);
+	}
+
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -76,6 +88,7 @@ public class IFGerenciarTurmas extends JInternalFrame {
 			imagePanel.add(getJpCadastro());
 			imagePanel.add(getJpRemoverAtualizar());
 			imagePanel.add(getJbVoltar());
+			boxCursos();
 		}
 		return imagePanel;
 	}
@@ -96,9 +109,9 @@ public class IFGerenciarTurmas extends JInternalFrame {
 			jpCadastro.add(getJbtNovo());
 			jpCadastro.add(getJtfId());
 			jpCadastro.add(getJlId());
-			jpCadastro.add(getComboBox());
+			jpCadastro.add(getJcbTurno());
 			jpCadastro.add(getJlTurno());
-			jpCadastro.add(getComboBox_1());
+			jpCadastro.add(getJcbCurso());
 			jpCadastro.add(getJlCurso());
 		}
 		return jpCadastro;
@@ -283,12 +296,15 @@ public class IFGerenciarTurmas extends JInternalFrame {
 		}
 		return jtTabela;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setBounds(88, 146, 432, 28);
+	private JComboBox getJcbTurno() {
+		if (jcbTurno == null) {
+			jcbTurno = new JComboBox();
+			jcbTurno.setBounds(88, 146, 432, 28);
+			jcbTurno.addItem("Matutino");
+			jcbTurno.addItem("Vespertino");
+			jcbTurno.addItem("Noturno");
 		}
-		return comboBox;
+		return jcbTurno;
 	}
 	private JLabel getJlTurno() {
 		if (jlTurno == null) {
@@ -299,12 +315,13 @@ public class IFGerenciarTurmas extends JInternalFrame {
 		}
 		return jlTurno;
 	}
-	private JComboBox getComboBox_1() {
-		if (comboBox_1 == null) {
-			comboBox_1 = new JComboBox();
-			comboBox_1.setBounds(88, 186, 432, 28);
+	private JComboBox getJcbCurso() {
+		if (jcbCurso == null) {
+			jcbCurso = new JComboBox();
+			jcbCurso.setBounds(88, 186, 432, 28);
+			
 		}
-		return comboBox_1;
+		return jcbCurso;
 	}
 	private JLabel getJlCurso() {
 		if (jlCurso == null) {
