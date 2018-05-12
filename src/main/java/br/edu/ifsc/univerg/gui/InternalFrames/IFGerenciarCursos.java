@@ -1,12 +1,16 @@
 package br.edu.ifsc.univerg.gui.InternalFrames;
-
 import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+import br.edu.ifsc.univerg.dao.AlunoDAO;
+import br.edu.ifsc.univerg.dao.CursoDAO;
+import br.edu.ifsc.univerg.model.CursoModel;
+import br.edu.ifsc.univerg.model.ProfessorModel;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -31,9 +35,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JImagePanel jpCadastro;
 	private JImagePanel jpRemoverAtualizar;
 	private JButton jbVoltar;
-	private JTextField jtfCodigo;
 	private JTextField jtfCurso;
-	private JLabel jlCodigo;
 	private JLabel jlCurso;
 	private JButton jbtSalvar;
 	private JButton jbtNovo;
@@ -63,6 +65,21 @@ public class IFGerenciarCursos extends JInternalFrame {
 		getContentPane().add(getImagePanel());
 
 	}
+	/*private void tabela(){
+		CursoDAO curso = new CursoDAO();
+		DefaultTableModel model = (DefaultTableModel) jspTabela.getModel();
+
+		// limpa a tabela
+		model.setRowCount(0);
+		 List<> dados = curso.selectProfessor();
+
+		// carrega pessoas da lista
+		for (ProfessorModel pr : dados) {
+			// inclui uma linha na tabela
+			model.addRow(
+					new Object[] { pr.getNome(), pr.getMatricula() });
+	}
+	}*/
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -83,9 +100,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
-			jpCadastro.add(getJtfCodigo());
 			jpCadastro.add(getJtfCurso());
-			jpCadastro.add(getJlCodigo());
 			jpCadastro.add(getJlCurso());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
@@ -123,44 +138,33 @@ public class IFGerenciarCursos extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
-	private JTextField getJtfCodigo() {
-		if (jtfCodigo == null) {
-			jtfCodigo = new JTextField();
-			jtfCodigo.setEditable(false);
-			jtfCodigo.setBounds(88, 66, 908, 28);
-			jtfCodigo.setColumns(10);
-		}
-		return jtfCodigo;
-	}
 	private JTextField getJtfCurso() {
 		if (jtfCurso == null) {
 			jtfCurso = new JTextField();
 			jtfCurso.setColumns(10);
-			jtfCurso.setBounds(88, 106, 908, 28);
+			jtfCurso.setBounds(88, 65, 908, 28);
 		}
 		return jtfCurso;
-	}
-	private JLabel getJlCodigo() {
-		if (jlCodigo == null) {
-			jlCodigo = new JLabel("Codigo:");
-			jlCodigo.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCodigo.setForeground(new Color(0, 153, 51));
-			jlCodigo.setBounds(21, 72, 55, 16);
-		}
-		return jlCodigo;
 	}
 	private JLabel getJlCurso() {
 		if (jlCurso == null) {
 			jlCurso = new JLabel("Curso:");
 			jlCurso.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlCurso.setForeground(new Color(0, 153, 51));
-			jlCurso.setBounds(21, 112, 55, 16);
+			jlCurso.setBounds(21, 70, 55, 16);
 		}
 		return jlCurso;
 	}
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
+			jbtSalvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					CursoModel curso = new CursoModel(jtfCurso.getText());
+					CursoDAO cursoDAO = new CursoDAO();
+					cursoDAO.incluir(curso);
+				}
+			});
 			jbtSalvar.setForeground(Color.WHITE);
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
