@@ -251,6 +251,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlbSenha.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlbSenha.setForeground(new Color(0, 153, 51));
 			jlbSenha.setBounds(18, 228, 55, 16);
+			////
 		}
 		return jlbSenha;
 	}
