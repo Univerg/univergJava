@@ -4,6 +4,9 @@ import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
 import br.edu.ifsc.univerg.dao.AlunoDAO;
 import br.edu.ifsc.univerg.dao.CursoDAO;
+import br.edu.ifsc.univerg.dao.adminDAO;
+import br.edu.ifsc.univerg.model.AdminModel;
+import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.CursoModel;
 import br.edu.ifsc.univerg.model.ProfessorModel;
 
@@ -17,9 +20,14 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -29,17 +37,18 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 
 public class IFGerenciarCursos extends JInternalFrame {
 	private JImagePanel imagePanel;
 	private JImagePanel jpCadastro;
 	private JImagePanel jpRemoverAtualizar;
 	private JButton jbVoltar;
-	private JTextField jtfCurso;
-	private JLabel jlCurso;
+	private JTextField jtfNome;
+	private JLabel lblNome;
 	private JButton jbtSalvar;
 	private JButton jbtNovo;
-	private JTextField textField;
+	private JTextField jtfBusca;
 	private JLabel jlBuscar;
 	private JTextField jtfId;
 	private JLabel jlId;
@@ -47,6 +56,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
+	private TableRowSorter<TableModel> pesquisaTextField;
 
 	/**
 	 * Launch the application.
@@ -63,23 +73,26 @@ public class IFGerenciarCursos extends JInternalFrame {
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
+		pesquisaTextField = new TableRowSorter<TableModel>(jtTabela.getModel());
+		jtTabela.setRowSorter(pesquisaTextField);
+		tabela();
 
 	}
-	/*private void tabela(){
+	private void tabela(){
 		CursoDAO curso = new CursoDAO();
-		DefaultTableModel model = (DefaultTableModel) jspTabela.getModel();
+		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
 
 		// limpa a tabela
 		model.setRowCount(0);
-		 List<> dados = curso.selectProfessor();
+		 List<CursoModel> dados = curso.selectCurso();
 
 		// carrega pessoas da lista
-		for (ProfessorModel pr : dados) {
+		for (CursoModel cr : dados) {
 			// inclui uma linha na tabela
 			model.addRow(
-					new Object[] { pr.getNome(), pr.getMatricula() });
+					new Object[] { cr.getId(), cr.getNome() });
 	}
-	}*/
+	}
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -97,11 +110,11 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JImagePanel getJpCadastro()  throws IOException{
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(null, "Gerenciar Curso", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
-			jpCadastro.add(getJtfCurso());
-			jpCadastro.add(getJlCurso());
+			jpCadastro.add(getJtfNome());
+			jpCadastro.add(getLblNome());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
 			jpCadastro.add(getJtfId());
@@ -115,7 +128,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpRemoverAtualizar.setBounds(19, 308, 1008, 300);
 			jpRemoverAtualizar.setLayout(null);
-			jpRemoverAtualizar.add(getTextField());
+			jpRemoverAtualizar.add(getJtfBusca());
 			jpRemoverAtualizar.add(getJlBuscar());
 			jpRemoverAtualizar.add(getJbtAlterar());
 			jpRemoverAtualizar.add(getJbtDeletar());
@@ -138,31 +151,37 @@ public class IFGerenciarCursos extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
-	private JTextField getJtfCurso() {
-		if (jtfCurso == null) {
-			jtfCurso = new JTextField();
-			jtfCurso.setColumns(10);
-			jtfCurso.setBounds(88, 65, 908, 28);
+	private JTextField getJtfNome() {
+		if (jtfNome == null) {
+			jtfNome = new JTextField();
+			jtfNome.setColumns(10);
+			jtfNome.setBounds(88, 65, 908, 28);
 		}
-		return jtfCurso;
+		return jtfNome;
 	}
-	private JLabel getJlCurso() {
-		if (jlCurso == null) {
-			jlCurso = new JLabel("Curso:");
-			jlCurso.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCurso.setForeground(new Color(0, 153, 51));
-			jlCurso.setBounds(21, 70, 55, 16);
+	private JLabel getLblNome() {
+		if (lblNome == null) {
+			lblNome = new JLabel("Nome:");
+			lblNome.setFont(new Font("SansSerif", Font.BOLD, 13));
+			lblNome.setForeground(new Color(0, 153, 51));
+			lblNome.setBounds(21, 70, 55, 16);
 		}
-		return jlCurso;
+		return lblNome;
 	}
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					CursoModel curso = new CursoModel(jtfCurso.getText());
 					CursoDAO cursoDAO = new CursoDAO();
-					cursoDAO.incluir(curso);
+					CursoModel curso = new CursoModel(jtfNome.getText());
+					if (AuxClass.getVal() != true) {
+						cursoDAO.incluir(curso);
+						tabela();
+					} else {
+						cursoDAO.alterarCurso(curso, AuxClass.getAux());
+						tabela();
+					}
 				}
 			});
 			jbtSalvar.setForeground(Color.WHITE);
@@ -182,13 +201,39 @@ public class IFGerenciarCursos extends JInternalFrame {
 		}
 		return jbtNovo;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(92, 36, 621, 28);
+	private JTextField getJtfBusca() {
+		if (jtfBusca == null) {
+			jtfBusca = new JTextField();
+			jtfBusca.setColumns(10);
+			jtfBusca.setBounds(92, 36, 621, 28);
+			jtfBusca.getDocument().addDocumentListener(new DocumentListener() {	
+				public void insertUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+					if (text.trim().length() == 0) {
+						pesquisaTextField.setRowFilter(null);
+					} else {
+						pesquisaTextField.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+				}
+				
+				public void removeUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+
+					if (text.trim().length() == 0) {
+						pesquisaTextField.setRowFilter(null);
+					} else {
+						pesquisaTextField.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+					
+				}
+				
+				public void changedUpdate(DocumentEvent e) {
+					throw new UnsupportedOperationException("Not supported yet.");
+					
+				}
+			});;
 		}
-		return textField;
+		return jtfBusca;
 	}
 	private JLabel getJlBuscar() {
 		if (jlBuscar == null) {
@@ -220,6 +265,20 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
+			jbtAlterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					AuxClass.setVal(true);
+					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					AuxClass.setAux(tableModel.getValueAt(row, 0).toString());
+					CursoDAO cursoDAO = new CursoDAO();
+					cursoDAO.buscarAlteracoes();
+					List<CursoModel> dados = cursoDAO.buscarAlteracoes();
+					for (CursoModel cursoModel : dados) {
+						jtfNome.setText(cursoModel.getNome());
+					}
+				}
+			});
 			jbtAlterar.setForeground(Color.WHITE);
 			jbtAlterar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtAlterar.setBackground(new Color(0, 153, 51));
@@ -230,6 +289,15 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JButton getJbtDeletar() {
 		if (jbtDeletar == null) {
 			jbtDeletar = new JButton("Deletar");
+			jbtDeletar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					CursoDAO cursoDAO = new CursoDAO();
+					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					cursoDAO.excluirCurso(tableModel.getValueAt(row, 0).toString());
+					tabela();
+				}
+			});
 			jbtDeletar.setForeground(Color.WHITE);
 			jbtDeletar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtDeletar.setBackground(new Color(0, 153, 51));
@@ -255,7 +323,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Codigo", "Curso"
+					"Id", "Curso"
 				}
 			) {
 				Class[] columnTypes = new Class[] {

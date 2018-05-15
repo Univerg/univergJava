@@ -280,7 +280,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 					try {
 						ProfessorDAO professorDao = new ProfessorDAO();
 						professorDao.incluir(professor);
-						JOptionPane.showMessageDialog(null, "Professor Cadastrado!");
 						tabela();
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -291,7 +290,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 						try {
 							ProfessorDAO professorDao = new ProfessorDAO();
 							professorDao.alterarProfessor(professor,AuxClass.getAux());
-							JOptionPane.showMessageDialog(null, "Professor Alterado!");
 							tabela();
 						} catch (Exception e1) {
 							e1.printStackTrace();

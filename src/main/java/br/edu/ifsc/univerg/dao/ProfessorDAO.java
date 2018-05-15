@@ -36,6 +36,10 @@ public class ProfessorDAO {
 				stmt.setString(12, pm.getSenha());
 				stmt.execute(); // executa comando
 				stmt.close();
+				con.close();
+				AuxClass.setAux("");
+				AuxClass.setVal(false);
+				JOptionPane.showMessageDialog(null, "Professor Cadastrado!");
 			} catch (SQLException u) {
 				throw new RuntimeException(u);
 			}
@@ -63,7 +67,7 @@ public class ProfessorDAO {
 		           }
 		           rs.close();
 		           st.close();
-		           
+		           con.close();
 		       } catch (Exception e) {
 		           e.printStackTrace();
 		       }
@@ -104,7 +108,7 @@ public class ProfessorDAO {
 		           }
 		           rs.close();
 		           st.close();
-		           
+		           con.close();
 		       } catch (Exception e) {
 		           e.printStackTrace();
 		       }
@@ -126,6 +130,7 @@ public class ProfessorDAO {
 		   		ps.setNString(1, matricula);
 		   		ps.execute();
 		   		ps.close();
+		   		con.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -158,7 +163,10 @@ public class ProfessorDAO {
 		   		ps.setString(13, var);
 		   		ps.execute();
 		   		ps.close();
-					
+				con.close();
+				AuxClass.setAux("");
+				AuxClass.setVal(false);
+				JOptionPane.showMessageDialog(null, "Professor Alterado!");
 				} catch (Exception e) {
 					e.printStackTrace();
 					// TODO: handle exception

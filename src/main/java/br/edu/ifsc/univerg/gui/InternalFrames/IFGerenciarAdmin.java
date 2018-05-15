@@ -337,10 +337,8 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jbtAlterar.setBounds(725, 24, 122, 38);
 			jbtAlterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
 					AuxClass.setVal(true);
-					DefaultTableModel tableModel = (
-					DefaultTableModel) jtTabela.getModel();
+					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
 					int row = jtTabela.getSelectedRow();
 					AuxClass.setAux(tableModel.getValueAt(row, 1).toString());
 					adminDAO admin = new adminDAO();

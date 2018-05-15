@@ -21,7 +21,6 @@ public class adminDAO {
 		try {
 			con = Conexao.abrir();
 			String sql = "INSERT INTO admin(nome,login,senha) VALUES(?,?,?)";
-			// TEST
 			try {
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, am.getNome());
@@ -31,6 +30,8 @@ public class adminDAO {
 				stmt.close();
 				con.close();
 				JOptionPane.showMessageDialog(null, "Admin Cadastrado!");
+				AuxClass.setAux("");
+				AuxClass.setVal(false);
 			} catch (SQLException u) {
 				throw new RuntimeException(u);
 			}
@@ -79,6 +80,7 @@ public class adminDAO {
 				ps.execute();
 				ps.close();
 				JOptionPane.showMessageDialog(null, "Admin Deletado!");
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -103,6 +105,8 @@ public class adminDAO {
 				ps.execute();
 				ps.close();
 				JOptionPane.showMessageDialog(null, "Admin Alterado!");
+				AuxClass.setAux("");
+				AuxClass.setVal(false);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -122,8 +126,7 @@ public class adminDAO {
 			con = Conexao.abrir();
 			try {
 				Statement st = con.createStatement();
-				ResultSet rs = st
-						.executeQuery("SELECT nome,login,senha FROM admin WHERE login=  '" + AuxClass.getAux() + "'");
+				ResultSet rs = st.executeQuery("SELECT nome,login,senha FROM admin WHERE login=  '" + AuxClass.getAux() + "'");
 				while (rs.next()) {
 					AdminModel am = new AdminModel(rs.getString("nome"), rs.getString("login"), rs.getString("senha"));
 					result.add(am);
