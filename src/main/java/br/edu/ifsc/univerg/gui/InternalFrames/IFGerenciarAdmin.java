@@ -64,14 +64,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JPasswordField jtfSenha2;
 	private TableRowSorter<TableModel> rowSorter;
 
-	/**
-	 * Launch the application.
-	 * 
-	 * 
-	 * /** Create the frame.
-	 * 
-	 * @throws Throwable
-	 */
+
 	public IFGerenciarAdmin() throws Throwable {
 		((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).setNorthPane(null);
 		setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
