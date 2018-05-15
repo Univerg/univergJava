@@ -1,8 +1,8 @@
 package br.edu.ifsc.univerg.dao;
 
-<<<<<<< HEAD
-public class TurmaDAO {
-=======
+
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -193,7 +193,6 @@ public class TurmaDAO {
 	   	
 	   }
 
-	
->>>>>>> refs/heads/guilhermeBDAdmin
+
 
 }

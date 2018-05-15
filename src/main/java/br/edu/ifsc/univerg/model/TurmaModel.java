@@ -1,8 +1,7 @@
 package br.edu.ifsc.univerg.model;
 
 public class TurmaModel {
-<<<<<<< HEAD
-=======
+
 	String turno;
 	String id;
 	String cod;
@@ -44,11 +43,6 @@ public class TurmaModel {
 		return "TurmaModel [turno=" + turno + ", id=" + id + ", cod=" + cod + "]";
 	}
 
-	
-	
-	
-	
-	
->>>>>>> refs/heads/guilhermeBDAdmin
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 }
