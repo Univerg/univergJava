@@ -4,15 +4,20 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.adminDAO;
+import br.edu.ifsc.univerg.model.AdminModel;
+import br.edu.ifsc.univerg.model.AuxClass;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -25,16 +30,20 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JComboBox;
 
-public class IFGerenciarRematricula extends JInternalFrame {
+public class IFGerenciarDisciplina extends JInternalFrame {
 	private JImagePanel imagePanel;
 	private JImagePanel jpCadastro;
 	private JImagePanel jpRemoverAtualizar;
 	private JButton jbVoltar;
+	private JTextField jtfNome;
+	private JLabel jlbNome;
+	private JLabel jlbLogin;
 	private JButton jbtSalvar;
 	private JButton jbtNovo;
-	private JTextField textField;
+	private JTextField jtfBusca;
 	private JLabel jlBuscar;
 	private JTextField jtfId;
 	private JLabel jlId;
@@ -42,30 +51,45 @@ public class IFGerenciarRematricula extends JInternalFrame {
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
+	private TableRowSorter<TableModel> rowSorter;
 	private JComboBox jcbCurso;
-	private JLabel jlCurso;
-	private JComboBox jcbFase;
-	private JLabel jlFase;
-	private JTextField jtfValor;
-	private JLabel jlValor;
 
 	/**
 	 * Launch the application.
-
-
-	/**
-	 * Create the frame.
-	 * @throws Throwable 
+	 * 
+	 * 
+	 * /** Create the frame.
+	 * 
+	 * @throws Throwable
 	 */
-	public IFGerenciarRematricula() throws Throwable {
-		((javax.swing.plaf.basic.BasicInternalFrameUI) 
-				getUI()).setNorthPane(null);
+	public IFGerenciarDisciplina() throws Throwable {
+		((javax.swing.plaf.basic.BasicInternalFrameUI) getUI()).setNorthPane(null);
 		setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
+		rowSorter = new TableRowSorter<TableModel>(jtTabela.getModel());
+		jtTabela.setRowSorter(rowSorter);
+		carrefartabela();
 
 	}
+
+	private void carrefartabela() {
+
+		adminDAO admin = new adminDAO();
+		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
+
+		// limpa a tabela
+		model.setRowCount(0);
+		List<AdminModel> dados = admin.selectAdmin();
+
+		// carrega pessoas da lista
+		for (AdminModel am : dados) {
+			// inclui uma linha na tabela
+			model.addRow(new Object[] { am.getNome(), am.getLogin(), am.getSenha() });
+		}
+	}
+
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -77,32 +101,35 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return imagePanel;
 	}
+
 	private static BufferedImage loadImage(String file) throws IOException {
 		return ImageIO.read(new File(file));
 	}
-	private JImagePanel getJpCadastro()  throws IOException{
+
+	private JImagePanel getJpCadastro() throws IOException {
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(null, "Gerenciar Disciplina", TitledBorder.LEADING, TitledBorder.TOP, null,
+					new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
+			jpCadastro.add(getJtfNome());
+			jpCadastro.add(getJlbNome());
+			jpCadastro.add(getJlbLogin());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
 			jpCadastro.add(getJtfId());
 			jpCadastro.add(getJlId());
 			jpCadastro.add(getJcbCurso());
-			jpCadastro.add(getJlCurso());
-			jpCadastro.add(getJcbFase());
-			jpCadastro.add(getJlFase());
-			jpCadastro.add(getJtfValor());
-			jpCadastro.add(getJlValor());
 		}
 		return jpCadastro;
 	}
-	private JImagePanel getJpRemoverAtualizar()  throws IOException{
+
+	private JImagePanel getJpRemoverAtualizar() throws IOException {
 		if (jpRemoverAtualizar == null) {
 			jpRemoverAtualizar = new JImagePanel(loadImage("panel.png"));
-			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING,
+					TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpRemoverAtualizar.setBounds(19, 308, 1008, 300);
 			jpRemoverAtualizar.setLayout(null);
 			jpRemoverAtualizar.add(getTextField());
@@ -113,6 +140,7 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jpRemoverAtualizar;
 	}
+
 	private JButton getJbVoltar() {
 		if (jbVoltar == null) {
 			jbVoltar = new JButton("Voltar");
@@ -128,6 +156,36 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
+
+	private JTextField getJtfNome() {
+		if (jtfNome == null) {
+			jtfNome = new JTextField();
+			jtfNome.setBounds(88, 66, 908, 28);
+			jtfNome.setColumns(10);
+		}
+		return jtfNome;
+	}
+
+	private JLabel getJlbNome() {
+		if (jlbNome == null) {
+			jlbNome = new JLabel("Nome:");
+			jlbNome.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jlbNome.setForeground(new Color(0, 153, 51));
+			jlbNome.setBounds(21, 72, 55, 16);
+		}
+		return jlbNome;
+	}
+
+	private JLabel getJlbLogin() {
+		if (jlbLogin == null) {
+			jlbLogin = new JLabel("Curso:");
+			jlbLogin.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jlbLogin.setForeground(new Color(0, 153, 51));
+			jlbLogin.setBounds(21, 112, 55, 16);
+		}
+		return jlbLogin;
+	}
+
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
@@ -135,9 +193,17 @@ public class IFGerenciarRematricula extends JInternalFrame {
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
 			jbtSalvar.setBounds(860, 212, 122, 38);
+			jbtSalvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				
+					
+				}
+			});
 		}
 		return jbtSalvar;
 	}
+
 	private JButton getJbtNovo() {
 		if (jbtNovo == null) {
 			jbtNovo = new JButton("Novo");
@@ -148,14 +214,42 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jbtNovo;
 	}
+
 	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(92, 36, 621, 28);
+		if (jtfBusca == null) {
+			jtfBusca = new JTextField();
+			jtfBusca.setColumns(10);
+			jtfBusca.setBounds(92, 36, 621, 28);
+			jtfBusca.getDocument().addDocumentListener(new DocumentListener() {
+				public void insertUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+
+					if (text.trim().length() == 0) {
+						rowSorter.setRowFilter(null);
+					} else {
+						rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+				}
+
+				public void removeUpdate(DocumentEvent e) {
+					String text = jtfBusca.getText();
+
+					if (text.trim().length() == 0) {
+						rowSorter.setRowFilter(null);
+					} else {
+						rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+					}
+				}
+
+				public void changedUpdate(DocumentEvent e) {
+					throw new UnsupportedOperationException("Not supported yet.");
+				}
+			});
+			jtfBusca.setColumns(10);
 		}
-		return textField;
+		return jtfBusca;
 	}
+
 	private JLabel getJlBuscar() {
 		if (jlBuscar == null) {
 			jlBuscar = new JLabel("Buscar:");
@@ -165,6 +259,7 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jlBuscar;
 	}
+
 	private JTextField getJtfId() {
 		if (jtfId == null) {
 			jtfId = new JTextField();
@@ -174,6 +269,7 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jtfId;
 	}
+
 	private JLabel getJlId() {
 		if (jlId == null) {
 			jlId = new JLabel("Id:");
@@ -183,6 +279,7 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jlId;
 	}
+
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
@@ -190,9 +287,17 @@ public class IFGerenciarRematricula extends JInternalFrame {
 			jbtAlterar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtAlterar.setBackground(new Color(0, 153, 51));
 			jbtAlterar.setBounds(725, 24, 122, 38);
+			jbtAlterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
 		}
 		return jbtAlterar;
+
 	}
+
 	private JButton getJbtDeletar() {
 		if (jbtDeletar == null) {
 			jbtDeletar = new JButton("Deletar");
@@ -200,9 +305,14 @@ public class IFGerenciarRematricula extends JInternalFrame {
 			jbtDeletar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtDeletar.setBackground(new Color(0, 153, 51));
 			jbtDeletar.setBounds(860, 24, 122, 38);
+			jbtDeletar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 		}
 		return jbtDeletar;
 	}
+
 	private JScrollPane getJspTabela() {
 		if (jspTabela == null) {
 			jspTabela = new JScrollPane();
@@ -211,90 +321,38 @@ public class IFGerenciarRematricula extends JInternalFrame {
 		}
 		return jspTabela;
 	}
+
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
-			jtTabela.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"ID", "Turma", "Curso", "Valor"
-				}
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class, String.class
-				};
+			jtTabela.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome:", "Login:" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class };
+
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false
-				};
+
+				boolean[] columnEditables = new boolean[] { false, false };
+
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 			});
 			jtTabela.getColumnModel().getColumn(0).setResizable(false);
-			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(130);
+			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(260);
 			jtTabela.getColumnModel().getColumn(1).setResizable(false);
-			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(130);
-			jtTabela.getColumnModel().getColumn(2).setResizable(false);
-			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(130);
-			jtTabela.getColumnModel().getColumn(3).setResizable(false);
-			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(130);
+			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(260);
 		}
 		return jtTabela;
 	}
 	private JComboBox getJcbCurso() {
 		if (jcbCurso == null) {
 			jcbCurso = new JComboBox();
-			jcbCurso.setBounds(88, 66, 432, 28);
+			jcbCurso.setBounds(88, 111, 274, 28);
 		}
 		return jcbCurso;
-	}
-	private JLabel getJlCurso() {
-		if (jlCurso == null) {
-			jlCurso = new JLabel("Curso:");
-			jlCurso.setForeground(new Color(0, 153, 51));
-			jlCurso.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCurso.setBounds(21, 72, 55, 16);
-		}
-		return jlCurso;
-	}
-	private JComboBox getJcbFase() {
-		if (jcbFase == null) {
-			jcbFase = new JComboBox();
-			jcbFase.setBounds(88, 100, 432, 28);
-		}
-		return jcbFase;
-	}
-	private JLabel getJlFase() {
-		if (jlFase == null) {
-			jlFase = new JLabel("Fase:");
-			jlFase.setForeground(new Color(0, 153, 51));
-			jlFase.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlFase.setBounds(21, 106, 55, 16);
-		}
-		return jlFase;
-	}
-	private JTextField getJtfValor() {
-		if (jtfValor == null) {
-			jtfValor = new JTextField();
-			jtfValor.setColumns(10);
-			jtfValor.setBounds(88, 140, 432, 28);
-		}
-		return jtfValor;
-	}
-	private JLabel getJlValor() {
-		if (jlValor == null) {
-			jlValor = new JLabel("Valor:");
-			jlValor.setForeground(new Color(0, 153, 51));
-			jlValor.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlValor.setBounds(21, 146, 55, 16);
-		}
-		return jlValor;
 	}
 }

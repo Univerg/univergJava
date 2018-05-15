@@ -69,8 +69,8 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JTextField jtfEmail;
 	private JLabel jlNasc;
 	private JTextField jtfNasc;
-	private JLabel jlCurso;
-	private JComboBox jcbCurso;
+	private JLabel jlTurma;
+	private JComboBox jcbTurma;
 	private JLabel jlMatricula;
 	private JTextField jtfMatricula;
 
@@ -108,7 +108,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JImagePanel getJpCadastro()  throws IOException, ParseException{
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(null, "Gerenciar Aluno", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
 			jpCadastro.add(getJtfNome());
@@ -138,8 +138,8 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jpCadastro.add(getJtfEmail());
 			jpCadastro.add(getJlNasc());
 			jpCadastro.add(getJtfNasc());
-			jpCadastro.add(getJlCurso());
-			jpCadastro.add(getJcbCurso());
+			jpCadastro.add(getJlTurma());
+			jpCadastro.add(getJcbTurma());
 			jpCadastro.add(getJlMatricula());
 			jpCadastro.add(getJtfMatricula());
 		}
@@ -186,14 +186,14 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfLogin == null) {
 			jtfLogin = new JTextField();
 			jtfLogin.setColumns(10);
-			jtfLogin.setBounds(85, 182, 180, 28);
+			jtfLogin.setBounds(87, 182, 180, 28);
 		}
 		return jtfLogin;
 	}
 	private JPasswordField getJtfSenha() {
 		if (jtfSenha == null) {
 			jtfSenha = new JPasswordField();
-			jtfSenha.setBounds(85, 222, 180, 28);
+			jtfSenha.setBounds(88, 223, 180, 28);
 		}
 		return jtfSenha;
 	}
@@ -227,6 +227,11 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
+			jbtSalvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+				}
+			});
 			jbtSalvar.setForeground(Color.WHITE);
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
@@ -478,21 +483,21 @@ public class IFGerenciarAluno extends JInternalFrame {
 		}
 		return jtfNasc;
 	}
-	private JLabel getJlCurso() {
-		if (jlCurso == null) {
-			jlCurso = new JLabel("Curso:");
-			jlCurso.setForeground(new Color(0, 153, 51));
-			jlCurso.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCurso.setBounds(21, 145, 55, 16);
+	private JLabel getJlTurma() {
+		if (jlTurma == null) {
+			jlTurma = new JLabel("Turma:");
+			jlTurma.setForeground(new Color(0, 153, 51));
+			jlTurma.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jlTurma.setBounds(21, 145, 55, 16);
 		}
-		return jlCurso;
+		return jlTurma;
 	}
-	private JComboBox getJcbCurso() {
-		if (jcbCurso == null) {
-			jcbCurso = new JComboBox();
-			jcbCurso.setBounds(88, 140, 473, 28);
+	private JComboBox getJcbTurma() {
+		if (jcbTurma == null) {
+			jcbTurma = new JComboBox();
+			jcbTurma.setBounds(88, 143, 473, 28);
 		}
-		return jcbCurso;
+		return jcbTurma;
 	}
 	private JLabel getJlMatricula() {
 		if (jlMatricula == null) {

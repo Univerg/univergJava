@@ -1,31 +1,20 @@
 package br.edu.ifsc.univerg.gui.InternalFrames;
-
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
-
 import br.edu.ifsc.univerg.dao.ProfessorDAO;
 import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
-
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -35,13 +24,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
 
 public class IFGerenciarProfessor extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -277,9 +263,10 @@ public class IFGerenciarProfessor extends JInternalFrame {
 							jtfLogin.getText(), 
 							String.valueOf(jtfSenha.getPassword())
 							);
+					ProfessorDAO professorDao = new ProfessorDAO();
 					if (AuxClass.getVal()!=true){
 					try {
-						ProfessorDAO professorDao = new ProfessorDAO();
+						
 						professorDao.incluir(professor);
 						tabela();
 					} catch (Exception e1) {
@@ -289,7 +276,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 					else {
 						
 						try {
-							ProfessorDAO professorDao = new ProfessorDAO();
+
 							professorDao.alterarProfessor(professor,AuxClass.getAux());
 							tabela();
 						} catch (Exception e1) {

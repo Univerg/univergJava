@@ -18,10 +18,10 @@ import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAdmin;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAluno;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAvaliacoes;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarCursos;
+import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarDisciplina;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarEmentas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarNotas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarProfessor;
-import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarRematricula;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarTurmas;
 
 import javax.imageio.ImageIO;
@@ -45,7 +45,7 @@ public class FrameAdmin extends JFrame {
 	private JButton jbtGerenciarCurso;
 	private JButton jbtGerenciarEmenta;
 	private JButton jbtGerenciarFrequencia;
-	private JButton jbtGerenciarRematricula;
+	private JButton jbtGerenciarDisciplina;
 	private JImagePanel jpBotoes;
 	private JImagePanel jpPanel;
 	private JButton jbtSair;
@@ -282,15 +282,15 @@ public class FrameAdmin extends JFrame {
 		}
 		return jbtGerenciarFrequencia;
 	}
-	private JButton getJbtGerenciarRematricula() {
-		if (jbtGerenciarRematricula == null) {
-			jbtGerenciarRematricula = new JButton("Gerenciar Rematricula");
-			jbtGerenciarRematricula.setBounds(0, 408, 183, 45);
-			jbtGerenciarRematricula.addActionListener(new ActionListener() {
+	private JButton getJbtGerenciarDisciplina() {
+		if (jbtGerenciarDisciplina == null) {
+			jbtGerenciarDisciplina = new JButton("Gerenciar Disciplina");
+			jbtGerenciarDisciplina.setBounds(0, 408, 183, 45);
+			jbtGerenciarDisciplina.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					IFGerenciarRematricula test;
+					IFGerenciarDisciplina test;
 					try {
-						test = new IFGerenciarRematricula();
+						test = new IFGerenciarDisciplina();
 						jpPanel.add(test);
 						test.setVisible(true);
 					} catch (Throwable e1) {
@@ -300,11 +300,11 @@ public class FrameAdmin extends JFrame {
 					
 				}
 			});
-			jbtGerenciarRematricula.setForeground(new Color(255, 255, 255));
-			jbtGerenciarRematricula.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jbtGerenciarRematricula.setBackground(new Color(0, 153, 51));
+			jbtGerenciarDisciplina.setForeground(new Color(255, 255, 255));
+			jbtGerenciarDisciplina.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jbtGerenciarDisciplina.setBackground(new Color(0, 153, 51));
 		}
-		return jbtGerenciarRematricula;
+		return jbtGerenciarDisciplina;
 	}
 	private JImagePanel getJpBotoes()  throws Throwable{
 		if (jpBotoes == null) {
@@ -317,7 +317,7 @@ public class FrameAdmin extends JFrame {
 			jpBotoes.add(getJbtGerenciarAvaliacao());
 			jpBotoes.add(getJbtGerenciarCurso());
 			jpBotoes.add(getJbtGerenciarEmenta());
-			jpBotoes.add(getJbtGerenciarRematricula());
+			jpBotoes.add(getJbtGerenciarDisciplina());
 			jpBotoes.add(getJbtGerenciarFrequencia());
 			jpBotoes.add(getJbtSair());
 		}

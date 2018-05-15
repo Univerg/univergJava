@@ -176,11 +176,21 @@ public class IFGerenciarCursos extends JInternalFrame {
 					CursoDAO cursoDAO = new CursoDAO();
 					CursoModel curso = new CursoModel(jtfNome.getText());
 					if (AuxClass.getVal() != true) {
-						cursoDAO.incluir(curso);
-						tabela();
+						try {
+							cursoDAO.incluir(curso);
+							tabela();
+							
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
 					} else {
-						cursoDAO.alterarCurso(curso, AuxClass.getAux());
-						tabela();
+						try {
+							cursoDAO.alterarCurso(curso, AuxClass.getAux());
+							tabela();
+							
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
 					}
 				}
 			});
