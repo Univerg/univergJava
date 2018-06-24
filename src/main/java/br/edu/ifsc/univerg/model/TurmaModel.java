@@ -41,6 +41,7 @@ public class TurmaModel {
 	@Override
 	public String toString() {
 		return "TurmaModel [turno=" + turno + ", id=" + id + ", cod=" + cod + "]";
+
 	}
 
-}
+	}

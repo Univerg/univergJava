@@ -22,8 +22,8 @@ public class App {
 			public void run() {
 				try {
 					
-					Conexao con = new Conexao();
-					con.abrir();
+					/*Conexao con = new Conexao();
+					con.abrir();*/
 					FrameSelecao frame = new FrameSelecao();
 					frame.setUndecorated(true);
 					frame.setVisible(true);
