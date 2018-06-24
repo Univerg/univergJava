@@ -200,15 +200,14 @@ public class IFGerenciarTurmas extends JInternalFrame {
 					TurmaModel tm = new TurmaModel(jcbTurno.getSelectedItem().toString());
 					AuxClass.setAux(jcbCurso.getSelectedItem().toString());
 					TurmaDAO turma= new TurmaDAO();
-					
-					
 					if (AuxClass.getVal() != true) {
 						AuxClass.setAux(jcbCurso.getSelectedItem().toString());
 						turma.incluir(tm);
 					} else {
 						turma.alterarTurma(tm, AuxClass.getAux2());
-						carrefartabela();
+						
 					}
+					carrefartabela();
 				}
 			});
 			jbtSalvar.setForeground(Color.WHITE);

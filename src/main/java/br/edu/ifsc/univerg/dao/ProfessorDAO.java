@@ -79,6 +79,28 @@ public class ProfessorDAO {
 	       
 	       return result;
 	   }
+	
+	public void excluir_Professor (String matricula){
+		   Connection con;
+		try {
+			con = Conexao.abrir();
+			String sql = "DELETE FROM professor WHERE  CONCAT (prefix,id)= ?";
+		   	try {
+		   		PreparedStatement ps = con.prepareStatement(sql);
+		   		ps.setNString(1, matricula);
+		   		ps.execute();
+		   		ps.close();
+		   		con.close();
+		   		JOptionPane.showMessageDialog(null, "Professor Deletado! ");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   	
+	   }
 	public List<ProfessorModel> buscarAlteracoes(){
 		
 		   Connection con;
@@ -119,26 +141,6 @@ public class ProfessorDAO {
 		     
 	       System.out.println(result);
 	       return result;
-	   }
-	public void excluir_Professor (String matricula){
-		   Connection con;
-		try {
-			con = Conexao.abrir();
-			String sql = "DELETE FROM professor WHERE  CONCAT (prefix,id)= ?";
-		   	try {
-		   		PreparedStatement ps = con.prepareStatement(sql);
-		   		ps.setNString(1, matricula);
-		   		ps.execute();
-		   		ps.close();
-		   		con.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	   	
 	   }
 	public void alterarProfessor ( ProfessorModel professor ,String var){
 		   Connection con;

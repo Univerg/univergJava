@@ -14,6 +14,7 @@ public class AlunoModel {
 	private String login;
 	private String senha;
 	private String matricula;
+	private String codturma;
 	public AlunoModel(String nome, String cpf, String rg, String fone, String cep, String nascimento, String endereco,
 			String cidade, String email, Long id_turma, String login, String senha) {
 		this.nome = nome;
@@ -29,12 +30,25 @@ public class AlunoModel {
 		this.login = login;
 		this.senha = senha;
 	}
-	
+	public AlunoModel(String nome, String cpf, String rg, String fone, String cep, String nascimento, String endereco,
+			String cidade, String email, String login, String senha, String codturma) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.rg = rg;
+		this.fone = fone;
+		this.cep = cep;
+		this.nascimento = nascimento;
+		this.endereco = endereco;
+		this.cidade = cidade;
+		this.email = email;
+		this.login = login;
+		this.senha = senha;
+		this.codturma = codturma;
+	}
 	public AlunoModel(String nome, String matricula) {
 		this.nome = nome;
 		this.matricula = matricula;
 	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -107,7 +121,23 @@ public class AlunoModel {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	public String getMatricula() {
+		return matricula;
+	}
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+	
+	public String getCodturma() {
+		return codturma;
+	}
+	public void setCodturma(String codturma) {
+		this.codturma = codturma;
+	}
+	@Override
+	public String toString() {
+		return "AlunoModel [nome=" + nome + ", matricula=" + matricula + "]";
+	}
 	
 	
-
 }

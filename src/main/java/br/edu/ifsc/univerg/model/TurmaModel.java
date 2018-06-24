@@ -43,6 +43,4 @@ public class TurmaModel {
 		return "TurmaModel [turno=" + turno + ", id=" + id + ", cod=" + cod + "]";
 	}
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 }

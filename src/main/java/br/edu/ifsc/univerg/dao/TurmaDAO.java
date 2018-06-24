@@ -146,7 +146,6 @@ public class TurmaDAO {
 	}
 	
 	public void incluir(TurmaModel tm) {
-
 		Connection con = null;
 		try {
 			con = Conexao.abrir();
@@ -183,6 +182,7 @@ public class TurmaDAO {
 		   		ps.execute();
 		   		ps.close();
 		   		con.close();
+		   		JOptionPane.showMessageDialog(null, "Turma Excluída!");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

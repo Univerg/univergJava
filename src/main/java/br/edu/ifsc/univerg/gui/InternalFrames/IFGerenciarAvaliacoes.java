@@ -178,6 +178,10 @@ public class IFGerenciarAvaliacoes extends JInternalFrame {
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
+			jbtSalvar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
 			jbtSalvar.setForeground(Color.WHITE);
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
@@ -266,6 +270,7 @@ public class IFGerenciarAvaliacoes extends JInternalFrame {
 			jtTabela.setBackground(Color.darkGray);
 			jtTabela.setModel(new DefaultTableModel(
 				new Object[][] {
+					{null, null, null},
 				},
 				new String[] {
 					"Data", "Peso", "Disciplina"
@@ -276,6 +281,12 @@ public class IFGerenciarAvaliacoes extends JInternalFrame {
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, true, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
 				}
 			});
 			jtTabela.getColumnModel().getColumn(0).setResizable(false);

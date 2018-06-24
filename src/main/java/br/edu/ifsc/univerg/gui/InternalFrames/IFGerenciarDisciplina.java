@@ -5,9 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
 
+import br.edu.ifsc.univerg.dao.DisciplinaDAO;
+import br.edu.ifsc.univerg.dao.TurmaDAO;
 import br.edu.ifsc.univerg.dao.adminDAO;
 import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
+import br.edu.ifsc.univerg.model.DisciplinaModel;
+import br.edu.ifsc.univerg.model.TurmaModel;
+
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.image.BufferedImage;
@@ -19,11 +24,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Color;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -71,22 +79,30 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 		rowSorter = new TableRowSorter<TableModel>(jtTabela.getModel());
 		jtTabela.setRowSorter(rowSorter);
 		carrefartabela();
+		boxCursos() ;
 
+	}
+	private void boxCursos() {
+		DisciplinaDAO dao = new DisciplinaDAO();
+		jcbCurso.removeAllItems();
+		jcbCurso.addItem("");
+		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_curso().toArray());
+		jcbCurso.setModel(defaultComboBox);
 	}
 
 	private void carrefartabela() {
 
-		adminDAO admin = new adminDAO();
+		DisciplinaDAO disciplina = new DisciplinaDAO();
 		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
 
 		// limpa a tabela
 		model.setRowCount(0);
-		List<AdminModel> dados = admin.selectAdmin();
+		List<DisciplinaModel> dados = disciplina.selectDisciplina();
 
 		// carrega pessoas da lista
-		for (AdminModel am : dados) {
+		for (DisciplinaModel dm : dados) {
 			// inclui uma linha na tabela
-			model.addRow(new Object[] { am.getNome(), am.getLogin(), am.getSenha() });
+			model.addRow(new Object[] { dm.getId(), dm.getNomeCurso(), dm.getNome()});
 		}
 	}
 
@@ -195,9 +211,17 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 			jbtSalvar.setBounds(860, 212, 122, 38);
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-				
-					
+					DisciplinaModel model = new DisciplinaModel(jtfNome.getText());
+					AuxClass.setAux(jcbCurso.getSelectedItem().toString());
+					DisciplinaDAO dao = new DisciplinaDAO();
+					if (AuxClass.getVal() != true) {
+						AuxClass.setAux(jcbCurso.getSelectedItem().toString());
+						dao.incluir(model);
+					} else {
+						dao.alterarDisciplina(model, AuxClass.getAux2());
+						
+					}
+					carrefartabela();
 				}
 			});
 		}
@@ -289,6 +313,19 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 			jbtAlterar.setBounds(725, 24, 122, 38);
 			jbtAlterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					AuxClass.setVal(true);
+					DefaultTableModel tableModel = (
+					DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					AuxClass.setAux2(tableModel.getValueAt(row, 0).toString());
+					DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+					disciplinaDAO.buscarAlteracoes();
+					List<DisciplinaModel> dados = disciplinaDAO.buscarAlteracoes();
+					for (DisciplinaModel dm : dados) {
+						jtfNome.setText(dm.getNome());
+						jcbCurso.setSelectedItem(dm.getNomeCurso());
+						
+					}
 					
 					
 				}
@@ -307,6 +344,11 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 			jbtDeletar.setBounds(860, 24, 122, 38);
 			jbtDeletar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
+					int row = jtTabela.getSelectedRow();
+					disciplinaDAO.exclui_disciplina(Integer.parseInt(tableModel.getValueAt(row, 0).toString()));
+					carrefartabela();
 				}
 			});
 		}
@@ -328,23 +370,25 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
-			jtTabela.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome:", "Login:" }) {
-				Class[] columnTypes = new Class[] { String.class, String.class };
-
+			jtTabela.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Id:", "Curso:", "Disciplina:"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, String.class, String.class
+				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-
-				boolean[] columnEditables = new boolean[] { false, false };
-
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
 			});
-			jtTabela.getColumnModel().getColumn(0).setResizable(false);
-			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(260);
+			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(38);
 			jtTabela.getColumnModel().getColumn(1).setResizable(false);
 			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(260);
+			jtTabela.getColumnModel().getColumn(2).setResizable(false);
+			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(260);
 		}
 		return jtTabela;
 	}

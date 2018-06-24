@@ -411,7 +411,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 					DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
 					int row = jtTabela.getSelectedRow();
 					professor.excluir_Professor(tableModel.getValueAt(row, 1).toString());
-					JOptionPane.showMessageDialog(null, "Professor Deletado!");
 					tabela();
 				}
 			});
