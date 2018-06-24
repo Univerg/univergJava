@@ -207,8 +207,9 @@ public class IFGerenciarTurmas extends JInternalFrame {
 						turma.incluir(tm);
 					} else {
 						turma.alterarTurma(tm, AuxClass.getAux2());
-						carrefartabela();
+						
 					}
+					carrefartabela();
 				}
 			});
 			jbtSalvar.setForeground(Color.WHITE);

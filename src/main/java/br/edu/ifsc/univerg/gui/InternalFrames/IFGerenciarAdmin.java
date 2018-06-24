@@ -228,6 +228,18 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jbtSalvar.setBounds(860, 212, 122, 38);
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					String senha1 = new String (jtfSenha.getPassword());
+					String senha2=  new String (jtfSenha2.getPassword());
+					if(jtfNome.getText().trim().isEmpty() || jtfLogin.getText().trim().isEmpty() ||
+							jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Preecha todos dos campos!");
+						}
+					
+							
+					else if(!senha1.equals(senha2)) {
+						JOptionPane.showMessageDialog(null, "As senhas devem ser iguais!");
+					}
+					else {
 					adminDAO dao = new adminDAO();
 					AdminModel admin = new AdminModel(jtfNome.getText(), jtfLogin.getText(),
 							String.valueOf(jtfSenha.getPassword()));
@@ -238,6 +250,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 					} else {
 						dao.alterarAdmin(admin, AuxClass.getAux());
 						carrefartabela();
+					}
 					}
 				}
 			});

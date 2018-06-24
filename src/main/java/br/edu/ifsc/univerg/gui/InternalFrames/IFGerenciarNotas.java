@@ -26,28 +26,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
+import javax.swing.UIManager;
 
 public class IFGerenciarNotas extends JInternalFrame {
 	private JImagePanel imagePanel;
 	private JImagePanel jpCadastro;
-	private JImagePanel jpRemoverAtualizar;
 	private JButton jbVoltar;
-	private JTextField jtfMatriculaAluno;
-	private JLabel jlbMatriculaAluno;
 	private JLabel jlbDisciplina;
-	private JLabel jlbNota;
 	private JButton jbtSalvar;
 	private JButton jbtNovo;
 	private JTextField textField;
 	private JLabel jlBuscar;
-	private JTextField jtfId;
-	private JLabel jlId;
 	private JButton jbtAlterar;
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
-	private JTextField jtfNota;
 	private JComboBox jcbDisciplina;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -72,8 +67,11 @@ public class IFGerenciarNotas extends JInternalFrame {
 			imagePanel.setBounds(0, -22, 1058, 694);
 			imagePanel.setLayout(null);
 			imagePanel.add(getJpCadastro());
-			imagePanel.add(getJpRemoverAtualizar());
 			imagePanel.add(getJbVoltar());
+			imagePanel.add(getJbtAlterar());
+			imagePanel.add(getJbtDeletar());
+			imagePanel.add(getJbtNovo());
+			imagePanel.add(getJbtSalvar());
 		}
 		return imagePanel;
 	}
@@ -83,35 +81,26 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JImagePanel getJpCadastro()  throws IOException{
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
-			jpCadastro.setBounds(19, 29, 1008, 267);
+			jpCadastro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro/ Alterar / Deletar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBounds(19, 29, 1008, 580);
 			jpCadastro.setLayout(null);
-			jpCadastro.add(getJtfMatriculaAluno());
-			jpCadastro.add(getJlbMatriculaAluno());
 			jpCadastro.add(getJlbDisciplina());
-			jpCadastro.add(getJlbNota());
-			jpCadastro.add(getJbtSalvar());
-			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJtfId());
-			jpCadastro.add(getJlId());
-			jpCadastro.add(getJtfNota());
 			jpCadastro.add(getJcbDisciplina());
+			jpCadastro.add(getJspTabela());
+			jpCadastro.add(getTextField());
+			jpCadastro.add(getJlBuscar());
+			
+			JComboBox jcbTurma = new JComboBox();
+			jcbTurma.setBounds(105, 14, 173, 28);
+			jpCadastro.add(jcbTurma);
+			
+			JLabel jlTurma = new JLabel("Turma");
+			jlTurma.setForeground(new Color(0, 153, 51));
+			jlTurma.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jlTurma.setBounds(21, 24, 86, 16);
+			jpCadastro.add(jlTurma);
 		}
 		return jpCadastro;
-	}
-	private JImagePanel getJpRemoverAtualizar()  throws IOException{
-		if (jpRemoverAtualizar == null) {
-			jpRemoverAtualizar = new JImagePanel(loadImage("panel.png"));
-			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
-			jpRemoverAtualizar.setBounds(19, 308, 1008, 300);
-			jpRemoverAtualizar.setLayout(null);
-			jpRemoverAtualizar.add(getTextField());
-			jpRemoverAtualizar.add(getJlBuscar());
-			jpRemoverAtualizar.add(getJbtAlterar());
-			jpRemoverAtualizar.add(getJbtDeletar());
-			jpRemoverAtualizar.add(getJspTabela());
-		}
-		return jpRemoverAtualizar;
 	}
 	private JButton getJbVoltar() {
 		if (jbVoltar == null) {
@@ -128,121 +117,111 @@ public class IFGerenciarNotas extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
-	private JTextField getJtfMatriculaAluno() {
-		if (jtfMatriculaAluno == null) {
-			jtfMatriculaAluno = new JTextField();
-			jtfMatriculaAluno.setBounds(140, 67, 288, 28);
-			jtfMatriculaAluno.setColumns(10);
-		}
-		return jtfMatriculaAluno;
-	}
-	private JLabel getJlbMatriculaAluno() {
-		if (jlbMatriculaAluno == null) {
-			jlbMatriculaAluno = new JLabel("Matrícula Aluno:");
-			jlbMatriculaAluno.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbMatriculaAluno.setForeground(new Color(0, 153, 51));
-			jlbMatriculaAluno.setBounds(21, 72, 122, 16);
-		}
-		return jlbMatriculaAluno;
-	}
 	private JLabel getJlbDisciplina() {
 		if (jlbDisciplina == null) {
 			jlbDisciplina = new JLabel("Diciplina:");
 			jlbDisciplina.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlbDisciplina.setForeground(new Color(0, 153, 51));
-			jlbDisciplina.setBounds(21, 112, 86, 16);
+			jlbDisciplina.setBounds(287, 19, 86, 16);
 		}
 		return jlbDisciplina;
-	}
-	private JLabel getJlbNota() {
-		if (jlbNota == null) {
-			jlbNota = new JLabel("Nota:");
-			jlbNota.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbNota.setForeground(new Color(0, 153, 51));
-			jlbNota.setBounds(21, 152, 55, 16);
-		}
-		return jlbNota;
 	}
 	private JButton getJbtSalvar() {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
+			jbtSalvar.setBounds(483, 620, 122, 38);
 			jbtSalvar.setForeground(Color.WHITE);
 			jbtSalvar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtSalvar.setBackground(new Color(0, 153, 51));
-			jbtSalvar.setBounds(860, 212, 122, 38);
 		}
 		return jbtSalvar;
 	}
 	private JButton getJbtNovo() {
 		if (jbtNovo == null) {
 			jbtNovo = new JButton("Novo");
+			jbtNovo.setBounds(351, 620, 122, 38);
+			jbtNovo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
 			jbtNovo.setForeground(Color.WHITE);
 			jbtNovo.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtNovo.setBackground(new Color(0, 153, 51));
-			jbtNovo.setBounds(726, 212, 122, 38);
 		}
 		return jbtNovo;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
+			textField.setBounds(86, 68, 621, 28);
 			textField.setColumns(10);
-			textField.setBounds(92, 36, 621, 28);
 		}
 		return textField;
 	}
 	private JLabel getJlBuscar() {
 		if (jlBuscar == null) {
 			jlBuscar = new JLabel("Buscar:");
+			jlBuscar.setBounds(21, 73, 55, 16);
 			jlBuscar.setForeground(new Color(0, 153, 51));
 			jlBuscar.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlBuscar.setBounds(25, 42, 55, 16);
 		}
 		return jlBuscar;
-	}
-	private JTextField getJtfId() {
-		if (jtfId == null) {
-			jtfId = new JTextField();
-			jtfId.setEditable(false);
-			jtfId.setColumns(10);
-			jtfId.setBounds(49, 26, 94, 28);
-		}
-		return jtfId;
-	}
-	private JLabel getJlId() {
-		if (jlId == null) {
-			jlId = new JLabel("Id:");
-			jlId.setForeground(new Color(0, 153, 51));
-			jlId.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlId.setBounds(21, 32, 55, 16);
-		}
-		return jlId;
 	}
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
+			jbtAlterar.setBounds(747, 620, 122, 38);
 			jbtAlterar.setForeground(Color.WHITE);
 			jbtAlterar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtAlterar.setBackground(new Color(0, 153, 51));
-			jbtAlterar.setBounds(725, 24, 122, 38);
 		}
 		return jbtAlterar;
 	}
 	private JButton getJbtDeletar() {
 		if (jbtDeletar == null) {
 			jbtDeletar = new JButton("Deletar");
+			jbtDeletar.setBounds(615, 619, 122, 38);
 			jbtDeletar.setForeground(Color.WHITE);
 			jbtDeletar.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jbtDeletar.setBackground(new Color(0, 153, 51));
-			jbtDeletar.setBounds(860, 24, 122, 38);
 		}
 		return jbtDeletar;
 	}
 	private JScrollPane getJspTabela() {
 		if (jspTabela == null) {
 			jspTabela = new JScrollPane();
-			jspTabela.setBounds(25, 70, 956, 203);
+			jspTabela.setBounds(10, 107, 988, 462);
 			jspTabela.setViewportView(getJtTabela());
+			
+			JImagePanel imagePanel_1 = new JImagePanel((BufferedImage) null);
+			imagePanel_1.setLayout(null);
+			imagePanel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro/ Alterar / Deletar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jspTabela.setColumnHeaderView(imagePanel_1);
+			
+			JLabel label = new JLabel("Diciplina:");
+			label.setForeground(new Color(0, 153, 51));
+			label.setFont(new Font("SansSerif", Font.BOLD, 13));
+			label.setBounds(453, 19, 86, 16);
+			imagePanel_1.add(label);
+			
+			JComboBox comboBox = new JComboBox();
+			comboBox.setBounds(536, 14, 173, 28);
+			imagePanel_1.add(comboBox);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 107, 988, 462);
+			imagePanel_1.add(scrollPane);
+			
+			textField_1 = new JTextField();
+			textField_1.setColumns(10);
+			textField_1.setBounds(88, 53, 621, 28);
+			imagePanel_1.add(textField_1);
+			
+			JLabel label_1 = new JLabel("Buscar:");
+			label_1.setForeground(new Color(0, 153, 51));
+			label_1.setFont(new Font("SansSerif", Font.BOLD, 13));
+			label_1.setBounds(21, 59, 55, 16);
+			imagePanel_1.add(label_1);
 		}
 		return jspTabela;
 	}
@@ -256,41 +235,28 @@ public class IFGerenciarNotas extends JInternalFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Matr\u00EDcula", "Disciplina"
+					"Nome", "Matr\u00EDcula", "Nota 1", "Nota 2", "Nota 3"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class
+					String.class, Object.class, Object.class, Object.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
-				boolean[] columnEditables = new boolean[] {
-					false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
 			});
-			jtTabela.getColumnModel().getColumn(0).setResizable(false);
-			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(308);
-			jtTabela.getColumnModel().getColumn(1).setResizable(false);
-			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(308);
+			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(153);
+			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(153);
+			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(105);
+			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(106);
+			jtTabela.getColumnModel().getColumn(4).setPreferredWidth(107);
 		}
 		return jtTabela;
-	}
-	private JTextField getJtfNota() {
-		if (jtfNota == null) {
-			jtfNota = new JTextField();
-			jtfNota.setColumns(10);
-			jtfNota.setBounds(64, 145, 364, 28);
-		}
-		return jtfNota;
 	}
 	private JComboBox getJcbDisciplina() {
 		if (jcbDisciplina == null) {
 			jcbDisciplina = new JComboBox();
-			jcbDisciplina.setBounds(88, 106, 340, 28);
+			jcbDisciplina.setBounds(359, 14, 173, 28);
 		}
 		return jcbDisciplina;
 	}
