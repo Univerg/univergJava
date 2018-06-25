@@ -18,6 +18,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.border.TitledBorder;

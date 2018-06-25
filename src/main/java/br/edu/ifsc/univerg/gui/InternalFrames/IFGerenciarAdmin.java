@@ -232,7 +232,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 					String senha2=  new String (jtfSenha2.getPassword());
 					if(jtfNome.getText().trim().isEmpty() || jtfLogin.getText().trim().isEmpty() ||
 							jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
-						JOptionPane.showMessageDialog(null, "Preecha todos dos campos!");
+						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");
 						}
 					
 							
