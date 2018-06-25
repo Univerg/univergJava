@@ -18,11 +18,12 @@ public class DisciplinaDAO {
 		Connection con;
 		try {
 			con = Conexao.abrir();
-			String sql = "insert into disciplina (nome,id_curso) VALUES (?,?)";
+			String sql = "insert into disciplina (nome,id_curso, ementa) VALUES (?,?,?)";
 			try {
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setString(1, disciplinaModel.getNome());
 				ps.setLong(2, selectIDCurso());
+				ps.setString(3, disciplinaModel.getEmenta());
 				ps.execute();
 				ps.close();
 				con.close();
@@ -143,10 +144,10 @@ public class DisciplinaDAO {
 				
 				Statement st = con.createStatement();
 				ResultSet rs = st
-						.executeQuery("SELECT disciplina.nome AS nomeDisciplina, curso.nome AS nomeCurso from disciplina INNER JOIN curso WHERE disciplina.id_curso = curso.id and disciplina.id=  '" + AuxClass.getAux2() + "'");
+						.executeQuery("SELECT disciplina.nome AS nomeDisciplina, curso.nome AS nomeCurso, disciplina.ementa as ementaDisciplina from disciplina INNER JOIN curso WHERE disciplina.id_curso = curso.id and disciplina.id=  '" + AuxClass.getAux2() + "'");
 				
 				while (rs.next()) {
-					DisciplinaModel disciplinaModel = new DisciplinaModel(rs.getString("nomeDisciplina"), rs.getString("nomeCurso"));
+					DisciplinaModel disciplinaModel = new DisciplinaModel(rs.getString("nomeDisciplina"), rs.getString("nomeCurso"),rs.getString("ementaDisciplina"));
 					result.add(disciplinaModel);
 				}
 				rs.close();
@@ -164,12 +165,13 @@ public class DisciplinaDAO {
 			Connection con;
 			try {
 				con = Conexao.abrir();
-				String sql = "UPDATE disciplina SET nome = ?, id_curso = ? WHERE id= ?";
+				String sql = "UPDATE disciplina SET nome = ?, id_curso = ? , ementa= ? WHERE id= ?";
 				try {
 					PreparedStatement ps = con.prepareStatement(sql);
 					ps.setString(1,disciplinaModel.getNome());
 					ps.setString(2, selectIDCurso().toString());
-					ps.setString(3, var);
+					ps.setString(3, disciplinaModel.getEmenta());
+					ps.setString(4, var);
 					ps.execute();
 					ps.close();
 					con.close();
@@ -188,5 +190,34 @@ public class DisciplinaDAO {
 			}
 
 		}
+		public String selectEmenta() {
+			Connection con;
+			String result= "";
+			try {
+				con = Conexao.abrir();
+				try {
+					Statement st = con.createStatement();
+					ResultSet rs = st.executeQuery("SELECT ementa FROM disciplina where id ='"+AuxClass.getAux2()+"'");
+					
+					while (rs.next()) {
+						result=rs.getString("ementa");
+					}
+					rs.close();
+					st.close();
+					AuxClass.setAux("");
+					AuxClass.setAux2("");
+					AuxClass.setVal(false);
+					JOptionPane.showMessageDialog(null, "Ementa Gerada!");
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return result;
+
+		}
+		
 		
 }
