@@ -55,14 +55,13 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JButton jbtNovo;
 	private JTextField jtfBusca;
 	private JLabel jlBuscar;
-	private JTextField jtfId;
-	private JLabel jlId;
 	private JButton jbtAlterar;
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
 	private JPasswordField jtfSenha2;
 	private TableRowSorter<TableModel> rowSorter;
+	private JLabel lblRepetirSenha;
 
 
 	public IFGerenciarAdmin() throws Throwable {
@@ -112,7 +111,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JImagePanel getJpCadastro() throws IOException {
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Cadastro", TitledBorder.LEADING, TitledBorder.TOP, null,
+			jpCadastro.setBorder(new TitledBorder(null, "Administrador", TitledBorder.LEADING, TitledBorder.TOP, null,
 					new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
@@ -124,9 +123,8 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jpCadastro.add(getJlbSenha());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJtfId());
-			jpCadastro.add(getJlId());
 			jpCadastro.add(getJtfSenha2());
+			jpCadastro.add(getLblRepetirSenha());
 		}
 		return jpCadastro;
 	}
@@ -166,7 +164,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JTextField getJtfNome() {
 		if (jtfNome == null) {
 			jtfNome = new JTextField();
-			jtfNome.setBounds(88, 66, 908, 28);
+			jtfNome.setBounds(88, 66, 453, 28);
 			jtfNome.setColumns(10);
 		}
 		return jtfNome;
@@ -176,7 +174,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		if (jtfLogin == null) {
 			jtfLogin = new JTextField();
 			jtfLogin.setColumns(10);
-			jtfLogin.setBounds(88, 106, 908, 28);
+			jtfLogin.setBounds(88, 106, 290, 28);
 		}
 		return jtfLogin;
 	}
@@ -184,7 +182,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JPasswordField getJtfSenha() {
 		if (jtfSenha == null) {
 			jtfSenha = new JPasswordField();
-			jtfSenha.setBounds(88, 146, 445, 28);
+			jtfSenha.setBounds(88, 146, 290, 28);
 		}
 		return jtfSenha;
 	}
@@ -314,26 +312,6 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		return jlBuscar;
 	}
 
-	private JTextField getJtfId() {
-		if (jtfId == null) {
-			jtfId = new JTextField();
-			jtfId.setEditable(false);
-			jtfId.setColumns(10);
-			jtfId.setBounds(88, 26, 94, 28);
-		}
-		return jtfId;
-	}
-
-	private JLabel getJlId() {
-		if (jlId == null) {
-			jlId = new JLabel("Id:");
-			jlId.setForeground(new Color(0, 153, 51));
-			jlId.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlId.setBounds(21, 32, 55, 16);
-		}
-		return jlId;
-	}
-
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
 			jbtAlterar = new JButton("Alterar");
@@ -426,8 +404,17 @@ public class IFGerenciarAdmin extends JInternalFrame {
 	private JPasswordField getJtfSenha2() {
 		if (jtfSenha2 == null) {
 			jtfSenha2 = new JPasswordField();
-			jtfSenha2.setBounds(551, 146, 445, 28);
+			jtfSenha2.setBounds(502, 146, 290, 28);
 		}
 		return jtfSenha2;
+	}
+	private JLabel getLblRepetirSenha() {
+		if (lblRepetirSenha == null) {
+			lblRepetirSenha = new JLabel("Repetir Senha:");
+			lblRepetirSenha.setForeground(new Color(0, 153, 51));
+			lblRepetirSenha.setFont(new Font("SansSerif", Font.BOLD, 13));
+			lblRepetirSenha.setBounds(388, 151, 104, 16);
+		}
+		return lblRepetirSenha;
 	}
 }

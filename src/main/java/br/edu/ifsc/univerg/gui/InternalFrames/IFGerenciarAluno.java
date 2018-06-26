@@ -139,7 +139,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JImagePanel getJpCadastro()  throws IOException, ParseException{
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(null, "Gerenciar Aluno", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(null, "Aluno", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 267);
 			jpCadastro.setLayout(null);
 			jpCadastro.add(getJtfNome());
