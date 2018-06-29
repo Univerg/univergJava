@@ -44,8 +44,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JButton jbtNovo;
 	private JTextField jtfBusca;
 	private JLabel jlBuscar;
-	private JTextField jtfId;
-	private JLabel jlId;
 	private JButton jbtAlterar;
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
@@ -68,8 +66,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JLabel jlNasc;
 	private JTextField jtfNasc;
 	private JLabel jlEspecializacao;
-	private JLabel jlMatricula;
-	private JTextField jtfMatricula;
 	private JTextField jtfEspecializacao;
 	private TableRowSorter<TableModel> rowSorter;
 
@@ -135,8 +131,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jpCadastro.add(getJlbSenha());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJtfId());
-			jpCadastro.add(getJlId());
 			jpCadastro.add(getJtfSenha2());
 			jpCadastro.add(getJlCpf());
 			jpCadastro.add(getJtfCpf());
@@ -155,8 +149,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jpCadastro.add(getJlNasc());
 			jpCadastro.add(getJtfNasc());
 			jpCadastro.add(getJlEspecializacao());
-			jpCadastro.add(getJlMatricula());
-			jpCadastro.add(getJtfMatricula());
 			jpCadastro.add(getJtfEspecializacao());
 		}
 		return jpCadastro;
@@ -250,6 +242,15 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jbtSalvar.setBounds(860, 212, 122, 38);
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					String senha1 = new String (jtfSenha.getPassword());
+					String senha2=  new String (jtfSenha2.getPassword());
+					if(jtfNome.getText().trim().isEmpty() || jtfCpf.getText().trim().isEmpty() || jtfRg.getText().trim().isEmpty()||
+							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || jtfNasc.getText().trim().isEmpty() ||
+							jtfEndereco.getText().trim().isEmpty() || jtfCidade.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() ||
+							jtfEspecializacao.getText().trim().isEmpty() || jtfLogin.getText().trim().isEmpty() || jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");
+						}
+					
 					ProfessorModel professor = new ProfessorModel(jtfNome.getText(),
 							jtfCpf.getText(), 
 							jtfRg.getText(), 
@@ -342,24 +343,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlBuscar.setBounds(25, 42, 55, 16);
 		}
 		return jlBuscar;
-	}
-	private JTextField getJtfId() {
-		if (jtfId == null) {
-			jtfId = new JTextField();
-			jtfId.setEditable(false);
-			jtfId.setColumns(10);
-			jtfId.setBounds(88, 26, 94, 28);
-		}
-		return jtfId;
-	}
-	private JLabel getJlId() {
-		if (jlId == null) {
-			jlId = new JLabel("Id:");
-			jlId.setForeground(new Color(0, 153, 51));
-			jlId.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlId.setBounds(21, 32, 55, 16);
-		}
-		return jlId;
 	}
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
@@ -607,24 +590,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlEspecializacao.setBounds(21, 140, 103, 30);
 		}
 		return jlEspecializacao;
-	}
-	private JLabel getJlMatricula() {
-		if (jlMatricula == null) {
-			jlMatricula = new JLabel("Matricula:");
-			jlMatricula.setForeground(new Color(0, 153, 51));
-			jlMatricula.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlMatricula.setBounds(573, 146, 73, 16);
-		}
-		return jlMatricula;
-	}
-	private JTextField getJtfMatricula() {
-		if (jtfMatricula == null) {
-			jtfMatricula = new JTextField();
-			jtfMatricula.setEditable(false);
-			jtfMatricula.setColumns(10);
-			jtfMatricula.setBounds(660, 139, 284, 28);
-		}
-		return jtfMatricula;
 	}
 	private JTextField getJtfEspecializacao() {
 		if (jtfEspecializacao == null) {

@@ -4,11 +4,17 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.AvaliacaoDAO;
+import br.edu.ifsc.univerg.dao.NotasDAO;
+import br.edu.ifsc.univerg.model.AuxClass;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
@@ -19,10 +25,13 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
@@ -41,6 +50,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
 	private JTable jtTabela;
+	private JComboBox jcbTurma;
 	private JComboBox jcbDisciplina;
 	private JTextField textField_1;
 
@@ -59,6 +69,8 @@ public class IFGerenciarNotas extends JInternalFrame {
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
+		boxDisc();
+		boxTurma();
 
 	}
 	private JImagePanel getImagePanel() throws Throwable {
@@ -81,7 +93,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JImagePanel getJpCadastro()  throws IOException{
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
-			jpCadastro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro/ Alterar / Deletar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
+			jpCadastro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Gerenciar Notas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 29, 1008, 580);
 			jpCadastro.setLayout(null);
 			jpCadastro.add(getJlbDisciplina());
@@ -89,12 +101,9 @@ public class IFGerenciarNotas extends JInternalFrame {
 			jpCadastro.add(getJspTabela());
 			jpCadastro.add(getTextField());
 			jpCadastro.add(getJlBuscar());
+			jpCadastro.add(getJcbTurma());
 			
-			JComboBox jcbTurma = new JComboBox();
-			jcbTurma.setBounds(105, 14, 173, 28);
-			jpCadastro.add(jcbTurma);
-			
-			JLabel jlTurma = new JLabel("Turma");
+			JLabel jlTurma = new JLabel("Turma:");
 			jlTurma.setForeground(new Color(0, 153, 51));
 			jlTurma.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlTurma.setBounds(21, 24, 86, 16);
@@ -102,6 +111,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 		}
 		return jpCadastro;
 	}
+	
 	private JButton getJbVoltar() {
 		if (jbVoltar == null) {
 			jbVoltar = new JButton("Voltar");
@@ -117,9 +127,24 @@ public class IFGerenciarNotas extends JInternalFrame {
 		}
 		return jbVoltar;
 	}
+	
+	private void boxDisc() {
+		NotasDAO dao = new NotasDAO();
+		jcbDisciplina.removeAllItems();
+		jcbDisciplina.addItem("");
+		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_disciplina().toArray());
+		jcbDisciplina.setModel(defaultComboBox);
+	}
+	private void boxTurma() {
+		NotasDAO dao = new NotasDAO();
+		jcbTurma.removeAllItems();
+		jcbTurma.addItem("");
+		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_turma().toArray());
+		jcbTurma.setModel(defaultComboBox);
+	}
 	private JLabel getJlbDisciplina() {
 		if (jlbDisciplina == null) {
-			jlbDisciplina = new JLabel("Diciplina:");
+			jlbDisciplina = new JLabel("Disciplina:");
 			jlbDisciplina.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlbDisciplina.setForeground(new Color(0, 153, 51));
 			jlbDisciplina.setBounds(287, 19, 86, 16);
@@ -235,23 +260,39 @@ public class IFGerenciarNotas extends JInternalFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Nome", "Matr\u00EDcula", "Nota 1", "Nota 2", "Nota 3"
+					"Nome", "Matr\u00EDcula", "Nota 1", "Nota 2", "Nota 3", "M\u00E9dia"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, Object.class, Object.class, Object.class, String.class
+					String.class, String.class, String.class, String.class, String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 			});
-			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(153);
-			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(153);
-			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(105);
-			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(106);
-			jtTabela.getColumnModel().getColumn(4).setPreferredWidth(107);
+			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(160);
+			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(102);
+			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(4).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(5).setPreferredWidth(90);
 		}
 		return jtTabela;
+	}
+	private JComboBox getJcbTurma() {
+		if (jcbTurma == null) {
+			jcbTurma = new JComboBox();
+			jcbTurma.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					NotasDAO dao = new NotasDAO();
+					dao.busca_disciplina();
+					AuxClass.setAux(jcbTurma.getSelectedItem().toString());
+					boxDisc();
+				}
+			});
+			jcbTurma.setBounds(86, 14, 173, 28);
+		}
+		return jcbTurma;
 	}
 	private JComboBox getJcbDisciplina() {
 		if (jcbDisciplina == null) {
