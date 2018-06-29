@@ -57,7 +57,7 @@ public class AlunoDAO {
 			try {
 				PreparedStatement ps =con.prepareStatement(sql);
 				ps.setString(1, aluno.getNome());
-				ps.setString(2,aluno.getCep());
+				ps.setString(2,aluno.getCpf());
 				ps.setString(3, aluno.getRg());
 				ps.setString(4,aluno.getFone());
 				ps.setString(5, aluno.getCep());
@@ -103,11 +103,12 @@ public class AlunoDAO {
 		           st.close();
 		           con.close();
 		       } catch (SQLException e) {
-		           e.printStackTrace();
+		    	   erro(e.getMessage().toString());
+		           
 		       }
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		     
 	       
@@ -172,7 +173,6 @@ public class AlunoDAO {
 			erro(e1.getMessage().toString());
 		}
 		     
-	       System.out.println(result);
 	       return result;
 	   }
 	public void alterarAluno ( AlunoModel alunoModel ,String var){
