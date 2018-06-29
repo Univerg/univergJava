@@ -1,44 +1,42 @@
 package br.edu.ifsc.univerg.gui.InternalFrames;
 
-import java.awt.EventQueue;
-
-import javax.swing.JInternalFrame;
-import com.towel.swing.img.JImagePanel;
-
-import br.edu.ifsc.univerg.dao.adminDAO;
-import br.edu.ifsc.univerg.model.AdminModel;
-import br.edu.ifsc.univerg.model.AuxClass;
-
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import java.awt.Color;
-import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.adminDAO;
+import br.edu.ifsc.univerg.model.AdminModel;
+import br.edu.ifsc.univerg.model.AuxClass;
+import br.edu.ifsc.univerg.model.ValidarLetra;
+import br.edu.ifsc.univerg.model.ValidarNum;
+import java.awt.event.FocusAdapter;
 
 public class IFGerenciarAdmin extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -133,7 +131,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		if (jpRemoverAtualizar == null) {
 			jpRemoverAtualizar = new JImagePanel(loadImage("panel.png"));
 			jpRemoverAtualizar.setBorder(new TitledBorder(null, "Atualizar / Remover", TitledBorder.LEADING,
-					TitledBorder.TOP, null, new Color(0, 153, 51)));
+			TitledBorder.TOP, null, new Color(0, 153, 51)));
 			jpRemoverAtualizar.setBounds(19, 308, 1008, 300);
 			jpRemoverAtualizar.setLayout(null);
 			jpRemoverAtualizar.add(getTextField());
@@ -166,6 +164,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jtfNome = new JTextField();
 			jtfNome.setBounds(88, 66, 453, 28);
 			jtfNome.setColumns(10);
+			jtfNome.setDocument(new ValidarLetra(50));
 		}
 		return jtfNome;
 	}
@@ -175,6 +174,8 @@ public class IFGerenciarAdmin extends JInternalFrame {
 			jtfLogin = new JTextField();
 			jtfLogin.setColumns(10);
 			jtfLogin.setBounds(88, 106, 290, 28);
+			jtfLogin.setDocument(new ValidarNum(20));
+			
 		}
 		return jtfLogin;
 	}
@@ -183,6 +184,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		if (jtfSenha == null) {
 			jtfSenha = new JPasswordField();
 			jtfSenha.setBounds(88, 146, 290, 28);
+		
 		}
 		return jtfSenha;
 	}
@@ -405,6 +407,7 @@ public class IFGerenciarAdmin extends JInternalFrame {
 		if (jtfSenha2 == null) {
 			jtfSenha2 = new JPasswordField();
 			jtfSenha2.setBounds(502, 146, 290, 28);
+			
 		}
 		return jtfSenha2;
 	}
