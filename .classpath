@@ -24,10 +24,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="towel-v1.2.2.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.46.jar"/>
-
 	<classpathentry kind="lib" path="itext-1.02b.jar"/>
-
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
-
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
