@@ -12,11 +12,14 @@ import br.edu.ifsc.univerg.model.AlunoModel;
 import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
+import br.edu.ifsc.univerg.model.ValidarLetra;
+import br.edu.ifsc.univerg.model.ValidarNum;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -48,7 +51,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 public class IFGerenciarAluno extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -85,11 +91,25 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JLabel jlbEmail;
 	private JTextField jtfEmail;
 	private JLabel jlNasc;
-	private JTextField jtfNasc;
 	private JLabel jlTurma;
 	private JComboBox jcbTurma;
 	private TableRowSorter<TableModel> rowSorter;
 	private JLabel lblRepetirSenha;
+	private MaskFormatter Maskara;
+	private String aux;
+	private JDateChooser jtfNasc;
+	
+	private void mask() {
+		try {
+			Maskara = new MaskFormatter(aux);
+			Maskara.setValidCharacters("0123456789");
+			Maskara.setPlaceholderCharacter('_');
+
+		} catch (Exception error_mask) {
+			JOptionPane.showMessageDialog(null, "Erro: " + error_mask);
+		}
+
+	}
 
 
 	public IFGerenciarAluno() throws Throwable {
@@ -164,10 +184,12 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jpCadastro.add(getJlbEmail());
 			jpCadastro.add(getJtfEmail());
 			jpCadastro.add(getJlNasc());
-			jpCadastro.add(getJtfNasc());
 			jpCadastro.add(getJlTurma());
 			jpCadastro.add(getJcbTurma());
 			jpCadastro.add(getLblRepetirSenha());
+			jpCadastro.add(getJtfNasc());
+			
+			
 			
 		}
 		return jpCadastro;
@@ -213,14 +235,24 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jtfNome = new JTextField();
 			jtfNome.setBounds(85, 26, 350, 28);
 			jtfNome.setColumns(10);
+			jtfNome.setDocument(new ValidarLetra(50));
 		}
 		return jtfNome;
+	}
+	private JDateChooser getJtfNasc() {
+		if(jtfNasc==null) {
+			jtfNasc = new JDateChooser();
+			jtfNasc.setBounds(85, 106, 134, 28);
+			
+		}
+		return jtfNasc;
 	}
 	private JTextField getJtfLogin() {
 		if (jtfLogin == null) {
 			jtfLogin = new JTextField();
 			jtfLogin.setColumns(10);
 			jtfLogin.setBounds(87, 182, 180, 28);
+			jtfLogin.setDocument(new ValidarNum(20));
 		}
 		return jtfLogin;
 	}
@@ -263,10 +295,11 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jbtSalvar = new JButton("Salvar");
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					String senha1 = new String (jtfSenha.getPassword());
 					String senha2=  new String (jtfSenha2.getPassword());
 					if(jtfNome.getText().trim().isEmpty() || jtfCpf.getText().trim().isEmpty() || jtfRg.getText().trim().isEmpty()||
-							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || jtfNasc.getText().trim().isEmpty() ||
+							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || sdf.format(jtfNasc.getDate().getTime()).trim().isEmpty() ||
 							jtfEndereco.getText().trim().isEmpty() || jtfCidade.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() ||
 							jtfLogin.getText().trim().isEmpty() || jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
 						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");
@@ -284,12 +317,12 @@ public class IFGerenciarAluno extends JInternalFrame {
 								jtfRg.getText(),
 								jtfTelefone.getText(), 
 								jtfCep.getText(),
-								jtfNasc.getText(),
+								sdf.format(jtfNasc.getDate().getTime()),
 								jtfEndereco.getText(),
 								jtfCidade.getText(),
 								jtfEmail.getText(), 
 								Long.parseLong(turma),
-								jtfLogin.getText(), 
+								jtfLogin.getText(), 	
 								String.valueOf(jtfSenha.getPassword())
 								);
 						AlunoDAO alunoDAO = new AlunoDAO();
@@ -369,6 +402,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jbtAlterar = new JButton("Alterar");
 			jbtAlterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					AuxClass.setVal(true);
 					DefaultTableModel tableModel = (
 					DefaultTableModel) jtTabela.getModel();
@@ -381,19 +415,27 @@ public class IFGerenciarAluno extends JInternalFrame {
 					 //test
 					 //
 						for (AlunoModel pr : dados) {
-							// inclui uma linha na tabela
-							jtfNome.setText( pr.getNome());
-							jtfCpf.setText(pr.getCpf());
-							jtfRg.setText(pr.getRg());
-							jtfTelefone.setText(pr.getFone());
-							jtfCep.setText(pr.getCep());
-							jtfNasc.setText(pr.getNascimento());
-							jtfEndereco.setText(pr.getEndereco());
-							jtfCidade.setText(pr.getCidade());
-							jtfEmail.setText(pr.getEmail());
-							jtfLogin.setText(pr.getLogin());
-							jtfSenha.setText(pr.getSenha());
-							jcbTurma.setSelectedItem(pr.getCodturma());
+
+							try {
+								// inclui uma linha na tabela
+								jtfNome.setText( pr.getNome());
+								jtfCpf.setText(pr.getCpf());
+								jtfRg.setText(pr.getRg());
+								jtfTelefone.setText(pr.getFone());
+								jtfCep.setText(pr.getCep());
+								jtfNasc.setDate(sdf.parse(pr.getNascimento()));
+								jtfEndereco.setText(pr.getEndereco());
+								jtfCidade.setText(pr.getCidade());
+								jtfEmail.setText(pr.getEmail());
+								jtfLogin.setText(pr.getLogin());
+								jtfSenha.setText(pr.getSenha());
+								jcbTurma.setSelectedItem(pr.getCodturma());
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								JOptionPane erro = new JOptionPane(e1,JOptionPane.ERROR_MESSAGE);
+								JDialog jd = erro.createDialog("Ocorreu um Erro!");
+							}
+
 							
 					}
 				}
@@ -483,8 +525,10 @@ public class IFGerenciarAluno extends JInternalFrame {
 	}
 	private JTextField getJtfCpf() throws ParseException {
 		if (jtfCpf == null) {
-			MaskFormatter mascara_cpf = new MaskFormatter("###.###.###-##"); 
-			jtfCpf = new JFormattedTextField(mascara_cpf);
+			jtfCpf = new JTextField();
+			aux = ("###.###.###-##");
+			mask();
+			jtfCpf= new javax.swing.JFormattedTextField(Maskara);
 			jtfCpf.setColumns(10);
 			jtfCpf.setBounds(85, 65, 122, 28);
 		}
@@ -495,6 +539,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jtfRg = new JTextField();
 			jtfRg.setColumns(10);
 			jtfRg.setBounds(315, 65, 120, 28);
+			jtfRg.setDocument(new ValidarNum(12));
 		}
 		return jtfRg;
 	}
@@ -510,6 +555,9 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JTextField getJtfTelefone() {
 		if (jtfTelefone == null) {
 			jtfTelefone = new JTextField();
+			aux = ("(###)#####-####");
+			mask();
+			jtfTelefone= new javax.swing.JFormattedTextField(Maskara);
 			jtfTelefone.setColumns(10);
 			jtfTelefone.setBounds(549, 65, 122, 28);
 		}
@@ -527,6 +575,9 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JTextField getJtfCep() {
 		if (jtfCep == null) {
 			jtfCep = new JTextField();
+			aux = ("##.###-###");
+			mask();
+			jtfCep= new javax.swing.JFormattedTextField(Maskara);
 			jtfCep.setColumns(10);
 			jtfCep.setBounds(772, 65, 122, 28);
 		}
@@ -545,7 +596,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfEndereco == null) {
 			jtfEndereco = new JTextField();
 			jtfEndereco.setColumns(10);
-			jtfEndereco.setBounds(270, 106, 180, 28);
+			jtfEndereco.setBounds(291, 104, 175, 28);
 		}
 		return jtfEndereco;
 	}
@@ -554,7 +605,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlbEndereo = new JLabel("Endereço:");
 			jlbEndereo.setForeground(new Color(0, 153, 51));
 			jlbEndereo.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbEndereo.setBounds(203, 112, 73, 16);
+			jlbEndereo.setBounds(225, 110, 67, 16);
 		}
 		return jlbEndereo;
 	}
@@ -562,7 +613,8 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfCidade == null) {
 			jtfCidade = new JTextField();
 			jtfCidade.setColumns(10);
-			jtfCidade.setBounds(524, 106, 180, 28);
+			jtfCidade.setBounds(540, 104, 180, 28);
+			jtfCidade.setDocument(new ValidarLetra(50));
 		}
 		return jtfCidade;
 	}
@@ -571,7 +623,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlbCidade = new JLabel("Cidade:");
 			jlbCidade.setForeground(new Color(0, 153, 51));
 			jlbCidade.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbCidade.setBounds(462, 112, 67, 16);
+			jlbCidade.setBounds(478, 110, 67, 16);
 		}
 		return jlbCidade;
 	}
@@ -581,7 +633,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlbEmail = new JLabel("Email:");
 			jlbEmail.setForeground(new Color(0, 153, 51));
 			jlbEmail.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbEmail.setBounds(726, 111, 40, 16);
+			jlbEmail.setBounds(742, 109, 40, 16);
 		}
 		return jlbEmail;
 	}
@@ -589,7 +641,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfEmail == null) {
 			jtfEmail = new JTextField();
 			jtfEmail.setColumns(10);
-			jtfEmail.setBounds(772, 106, 210, 28);
+			jtfEmail.setBounds(788, 104, 210, 28);
 		}
 		return jtfEmail;
 	}
@@ -601,14 +653,6 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlNasc.setBounds(21, 112, 73, 16);
 		}
 		return jlNasc;
-	}
-	private JTextField getJtfNasc() {
-		if (jtfNasc == null) {
-			jtfNasc = new JTextField();
-			jtfNasc.setColumns(10);
-			jtfNasc.setBounds(85, 106, 103, 28);
-		}
-		return jtfNasc;
 	}
 	private JLabel getJlTurma() {
 		if (jlTurma == null) {

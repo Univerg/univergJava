@@ -35,6 +35,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +47,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import com.toedter.calendar.JDateChooser;
 
 public class IFGerenciarAvaliacoes extends JInternalFrame {
@@ -295,8 +298,8 @@ public class IFGerenciarAvaliacoes extends JInternalFrame {
 								jcbTurma.setSelectedItem(am.getCod_Turma());
 								jcbDisciplina.setSelectedItem(am.getNome_Disciplina());
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								JOptionPane erro = new JOptionPane(e,JOptionPane.ERROR_MESSAGE);
+								JDialog jd = erro.createDialog("Ocorreu um Erro!");
 							}	
 					}
 					
