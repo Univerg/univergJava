@@ -48,6 +48,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import com.toedter.calendar.JCalendar;
 
 public class IFGerenciarAluno extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -64,8 +65,6 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JButton jbtNovo;
 	private JTextField jtfBuscar;
 	private JLabel jlBuscar;
-	private JTextField jtfId;
-	private JLabel jlId;
 	private JButton jbtAlterar;
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
@@ -89,9 +88,8 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JTextField jtfNasc;
 	private JLabel jlTurma;
 	private JComboBox jcbTurma;
-	private JLabel jlMatricula;
-	private JTextField jtfMatricula;
 	private TableRowSorter<TableModel> rowSorter;
+	private JLabel lblRepetirSenha;
 
 
 	public IFGerenciarAluno() throws Throwable {
@@ -140,7 +138,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jpCadastro == null) {
 			jpCadastro = new JImagePanel(loadImage("panel.png"));
 			jpCadastro.setBorder(new TitledBorder(null, "Aluno", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
-			jpCadastro.setBounds(19, 29, 1008, 267);
+			jpCadastro.setBounds(19, 29, 1008, 278);
 			jpCadastro.setLayout(null);
 			jpCadastro.add(getJtfNome());
 			jpCadastro.add(getJtfLogin());
@@ -150,8 +148,6 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jpCadastro.add(getJlbSenha());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJtfId());
-			jpCadastro.add(getJlId());
 			jpCadastro.add(getJtfSenha2());
 			jpCadastro.add(getJlCpf());
 			jpCadastro.add(getJtfCpf());
@@ -171,8 +167,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jpCadastro.add(getJtfNasc());
 			jpCadastro.add(getJlTurma());
 			jpCadastro.add(getJcbTurma());
-			jpCadastro.add(getJlMatricula());
-			jpCadastro.add(getJtfMatricula());
+			jpCadastro.add(getLblRepetirSenha());
 			
 		}
 		return jpCadastro;
@@ -216,7 +211,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JTextField getJtfNome() {
 		if (jtfNome == null) {
 			jtfNome = new JTextField();
-			jtfNome.setBounds(88, 66, 180, 28);
+			jtfNome.setBounds(85, 26, 350, 28);
 			jtfNome.setColumns(10);
 		}
 		return jtfNome;
@@ -241,7 +236,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlbNome = new JLabel("Nome:");
 			jlbNome.setFont(new Font("SansSerif", Font.BOLD, 13));
 			jlbNome.setForeground(new Color(0, 153, 51));
-			jlbNome.setBounds(21, 72, 55, 16);
+			jlbNome.setBounds(22, 31, 55, 16);
 		}
 		return jlbNome;
 	}
@@ -267,30 +262,45 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jbtSalvar == null) {
 			jbtSalvar = new JButton("Salvar");
 			jbtSalvar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {		
-		String turma =(jcbTurma.getSelectedItem().toString()).substring((jcbTurma.getSelectedItem().toString().length())-3, 5);
-					AlunoModel alunoModel = new AlunoModel(jtfNome.getText(),
-							jtfCpf.getText(),
-							jtfRg.getText(),
-							jtfTelefone.getText(), 
-							jtfCep.getText(),
-							jtfNasc.getText(),
-							jtfEndereco.getText(),
-							jtfCidade.getText(),
-							jtfEmail.getText(), 
-							Long.parseLong(turma),
-							jtfLogin.getText(), 
-							String.valueOf(jtfSenha.getPassword())
-							);
-					AlunoDAO alunoDAO = new AlunoDAO();
-					if (AuxClass.getVal() != true) {
-						AuxClass.setAux(jcbTurma.getSelectedItem().toString());
-						alunoDAO.incluirAluno(alunoModel);
-					} else {
-						alunoDAO.alterarAluno(alunoModel, AuxClass.getAux());
-						
+				public void actionPerformed(ActionEvent arg0) {
+					String senha1 = new String (jtfSenha.getPassword());
+					String senha2=  new String (jtfSenha2.getPassword());
+					if(jtfNome.getText().trim().isEmpty() || jtfCpf.getText().trim().isEmpty() || jtfRg.getText().trim().isEmpty()||
+							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || jtfNasc.getText().trim().isEmpty() ||
+							jtfEndereco.getText().trim().isEmpty() || jtfCidade.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() ||
+							jtfLogin.getText().trim().isEmpty() || jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");
+						}
+					
+							
+					else if(!senha1.equals(senha2)) {
+						JOptionPane.showMessageDialog(null, "As senhas devem ser iguais!");
 					}
-					tabela();
+					
+					else{
+						String turma =(jcbTurma.getSelectedItem().toString()).substring((jcbTurma.getSelectedItem().toString().length())-3, 5);
+						AlunoModel alunoModel = new AlunoModel(jtfNome.getText(),
+								jtfCpf.getText(),
+								jtfRg.getText(),
+								jtfTelefone.getText(), 
+								jtfCep.getText(),
+								jtfNasc.getText(),
+								jtfEndereco.getText(),
+								jtfCidade.getText(),
+								jtfEmail.getText(), 
+								Long.parseLong(turma),
+								jtfLogin.getText(), 
+								String.valueOf(jtfSenha.getPassword())
+								);
+						AlunoDAO alunoDAO = new AlunoDAO();
+						if (AuxClass.getVal() != true) {
+							AuxClass.setAux(jcbTurma.getSelectedItem().toString());
+							alunoDAO.incluirAluno(alunoModel);
+						} else {
+							alunoDAO.alterarAluno(alunoModel, AuxClass.getAux());		
+						}
+					tabela();						
+					}			
 				}
 			});
 			jbtSalvar.setForeground(Color.WHITE);
@@ -353,24 +363,6 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlBuscar.setBounds(25, 42, 55, 16);
 		}
 		return jlBuscar;
-	}
-	private JTextField getJtfId() {
-		if (jtfId == null) {
-			jtfId = new JTextField();
-			jtfId.setEditable(false);
-			jtfId.setColumns(10);
-			jtfId.setBounds(88, 26, 94, 28);
-		}
-		return jtfId;
-	}
-	private JLabel getJlId() {
-		if (jlId == null) {
-			jlId = new JLabel("Id:");
-			jlId.setForeground(new Color(0, 153, 51));
-			jlId.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlId.setBounds(21, 32, 55, 16);
-		}
-		return jlId;
 	}
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {
@@ -476,7 +468,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JPasswordField getJtfSenha2() {
 		if (jtfSenha2 == null) {
 			jtfSenha2 = new JPasswordField();
-			jtfSenha2.setBounds(277, 222, 180, 28);
+			jtfSenha2.setBounds(429, 223, 180, 28);
 		}
 		return jtfSenha2;
 	}
@@ -485,7 +477,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlCpf = new JLabel("CPF:");
 			jlCpf.setForeground(new Color(0, 153, 51));
 			jlCpf.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCpf.setBounds(280, 72, 35, 16);
+			jlCpf.setBounds(22, 70, 35, 16);
 		}
 		return jlCpf;
 	}
@@ -494,7 +486,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			MaskFormatter mascara_cpf = new MaskFormatter("###.###.###-##"); 
 			jtfCpf = new JFormattedTextField(mascara_cpf);
 			jtfCpf.setColumns(10);
-			jtfCpf.setBounds(315, 66, 122, 28);
+			jtfCpf.setBounds(85, 65, 122, 28);
 		}
 		return jtfCpf;
 	}
@@ -502,7 +494,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfRg == null) {
 			jtfRg = new JTextField();
 			jtfRg.setColumns(10);
-			jtfRg.setBounds(476, 66, 122, 28);
+			jtfRg.setBounds(315, 65, 120, 28);
 		}
 		return jtfRg;
 	}
@@ -511,7 +503,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlRg = new JLabel("RG:");
 			jlRg.setForeground(new Color(0, 153, 51));
 			jlRg.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlRg.setBounds(449, 72, 23, 16);
+			jlRg.setBounds(270, 70, 23, 16);
 		}
 		return jlRg;
 	}
@@ -519,7 +511,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfTelefone == null) {
 			jtfTelefone = new JTextField();
 			jtfTelefone.setColumns(10);
-			jtfTelefone.setBounds(649, 66, 122, 28);
+			jtfTelefone.setBounds(549, 65, 122, 28);
 		}
 		return jtfTelefone;
 	}
@@ -528,7 +520,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlTelefone = new JLabel("Fone:");
 			jlTelefone.setForeground(new Color(0, 153, 51));
 			jlTelefone.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlTelefone.setBounds(610, 72, 36, 16);
+			jlTelefone.setBounds(503, 70, 36, 16);
 		}
 		return jlTelefone;
 	}
@@ -536,7 +528,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfCep == null) {
 			jtfCep = new JTextField();
 			jtfCep.setColumns(10);
-			jtfCep.setBounds(822, 66, 122, 28);
+			jtfCep.setBounds(772, 65, 122, 28);
 		}
 		return jtfCep;
 	}
@@ -545,7 +537,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlCep = new JLabel("CEP:");
 			jlCep.setForeground(new Color(0, 153, 51));
 			jlCep.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlCep.setBounds(783, 72, 36, 16);
+			jlCep.setBounds(726, 70, 36, 16);
 		}
 		return jlCep;
 	}
@@ -570,7 +562,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfCidade == null) {
 			jtfCidade = new JTextField();
 			jtfCidade.setColumns(10);
-			jtfCidade.setBounds(517, 106, 180, 28);
+			jtfCidade.setBounds(524, 106, 180, 28);
 		}
 		return jtfCidade;
 	}
@@ -589,7 +581,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 			jlbEmail = new JLabel("Email:");
 			jlbEmail.setForeground(new Color(0, 153, 51));
 			jlbEmail.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbEmail.setBounds(709, 112, 67, 16);
+			jlbEmail.setBounds(726, 111, 40, 16);
 		}
 		return jlbEmail;
 	}
@@ -597,7 +589,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfEmail == null) {
 			jtfEmail = new JTextField();
 			jtfEmail.setColumns(10);
-			jtfEmail.setBounds(764, 106, 180, 28);
+			jtfEmail.setBounds(772, 106, 210, 28);
 		}
 		return jtfEmail;
 	}
@@ -614,7 +606,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		if (jtfNasc == null) {
 			jtfNasc = new JTextField();
 			jtfNasc.setColumns(10);
-			jtfNasc.setBounds(88, 106, 103, 28);
+			jtfNasc.setBounds(85, 106, 103, 28);
 		}
 		return jtfNasc;
 	}
@@ -630,26 +622,17 @@ public class IFGerenciarAluno extends JInternalFrame {
 	private JComboBox getJcbTurma() {
 		if (jcbTurma == null) {
 			jcbTurma = new JComboBox();
-			jcbTurma.setBounds(88, 143, 473, 28);
+			jcbTurma.setBounds(85, 143, 350, 28);
 		}
 		return jcbTurma;
 	}
-	private JLabel getJlMatricula() {
-		if (jlMatricula == null) {
-			jlMatricula = new JLabel("Matricula:");
-			jlMatricula.setForeground(new Color(0, 153, 51));
-			jlMatricula.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlMatricula.setBounds(573, 146, 73, 16);
+	private JLabel getLblRepetirSenha() {
+		if (lblRepetirSenha == null) {
+			lblRepetirSenha = new JLabel("Repetir Senha:");
+			lblRepetirSenha.setForeground(new Color(0, 153, 51));
+			lblRepetirSenha.setFont(new Font("SansSerif", Font.BOLD, 13));
+			lblRepetirSenha.setBounds(315, 230, 104, 16);
 		}
-		return jlMatricula;
-	}
-	private JTextField getJtfMatricula() {
-		if (jtfMatricula == null) {
-			jtfMatricula = new JTextField();
-			jtfMatricula.setEditable(false);
-			jtfMatricula.setColumns(10);
-			jtfMatricula.setBounds(660, 139, 284, 28);
-		}
-		return jtfMatricula;
+		return lblRepetirSenha;
 	}
 }

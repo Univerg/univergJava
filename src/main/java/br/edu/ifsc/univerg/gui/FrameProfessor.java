@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import com.towel.swing.img.JImagePanel;
 
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAvaliacoes;
-import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarEmentas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarNotas;
 
 import javax.imageio.ImageIO;
@@ -99,29 +98,6 @@ public class FrameProfessor extends JFrame {
 		}
 		return jbtGerenciarAvaliacoes;
 	}
-	private JButton getJbtGerenciarEmentas() {
-		if (jbtGerenciarEmentas == null) {
-			jbtGerenciarEmentas = new JButton("Gerenciar Ementas");
-			jbtGerenciarEmentas.setBounds(0, 51, 183, 45);
-			jbtGerenciarEmentas.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					IFGerenciarEmentas test;
-					try {
-						test = new IFGerenciarEmentas();
-						jpPanel.add(test);
-						test.setVisible(true);
-					} catch (Throwable e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			});
-			jbtGerenciarEmentas.setForeground(new Color(255, 255, 255));
-			jbtGerenciarEmentas.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jbtGerenciarEmentas.setBackground(new Color(0, 153, 51));
-		}
-		return jbtGerenciarEmentas;
-	}
 	private JButton getJbtGerenciarNotas() {
 		if (jbtGerenciarNotas == null) {
 			jbtGerenciarNotas = new JButton("Gerenciar Notas");
@@ -151,7 +127,6 @@ public class FrameProfessor extends JFrame {
 			jpBotoes = new JImagePanel((loadImage("bot.jpg")));
 			jpBotoes.setLayout(null);
 			jpBotoes.add(getJbtGerenciarAvaliacoes());
-			jpBotoes.add(getJbtGerenciarEmentas());
 			jpBotoes.add(getJbtGerenciarNotas());
 			jpBotoes.add(getJbtSair());
 		}

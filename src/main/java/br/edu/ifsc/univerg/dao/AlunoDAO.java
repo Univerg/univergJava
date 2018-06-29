@@ -3,10 +3,12 @@ package br.edu.ifsc.univerg.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import br.edu.ifsc.univerg.model.AlunoModel;
@@ -15,6 +17,12 @@ import br.edu.ifsc.univerg.model.ProfessorModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class AlunoDAO {
+	public void erro(String msg){
+		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+		JDialog jd = erro.createDialog("Ocorreu um Erro!");
+		jd.setAlwaysOnTop(true);
+		jd.setVisible(true);
+	}
 	//Lista no comboBox as turmas já cadastradas
 	public List<String> busca_turma() {
 		List<String> strList = new ArrayList<String>();
@@ -29,12 +37,12 @@ public class AlunoDAO {
 				rs.close();
 				st.close();
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (SQLException e) {
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return strList;
@@ -66,11 +74,13 @@ public class AlunoDAO {
 				AuxClass.setAux("");
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Aluno Cadastrado");
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			erro(e.getMessage().toString());
 		}
 	}
 
@@ -92,7 +102,7 @@ public class AlunoDAO {
 		           rs.close();
 		           st.close();
 		           con.close();
-		       } catch (Exception e) {
+		       } catch (SQLException e) {
 		           e.printStackTrace();
 		       }
 		} catch (Exception e1) {
@@ -115,11 +125,13 @@ public class AlunoDAO {
 				ps.close();
 				con.close();
 				JOptionPane.showMessageDialog(null, "Aluno Deletado! ");
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			erro(e.getMessage().toString());
 		}
 	}
 	public List<AlunoModel> buscarAlteracoes(){
@@ -152,12 +164,12 @@ public class AlunoDAO {
 		           rs.close();
 		           st.close();
 		           con.close();
-		       } catch (Exception e) {
-		           e.printStackTrace();
+		       } catch (SQLException e) {
+		    	   erro(e.getMessage().toString());
 		       }
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		     
 	       System.out.println(result);
@@ -190,13 +202,13 @@ public class AlunoDAO {
 				AuxClass.setAux("");
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Aluno Alterado!");
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (SQLException e) {
+					erro(e.getMessage().toString());
 					// TODO: handle exception
 				}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 	   	
 	   }

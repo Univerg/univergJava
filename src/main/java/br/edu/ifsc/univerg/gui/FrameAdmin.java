@@ -19,7 +19,6 @@ import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAluno;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAvaliacoes;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarCursos;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarDisciplina;
-import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarEmentas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarNotas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarProfessor;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarTurmas;
@@ -43,7 +42,6 @@ public class FrameAdmin extends JFrame {
 	private JButton jbtGerenciarTurma;
 	private JButton jbtGerenciarAvaliacao;
 	private JButton jbtGerenciarCurso;
-	private JButton jbtGerenciarEmenta;
 	private JButton jbtGerenciarFrequencia;
 	private JButton jbtGerenciarDisciplina;
 	private JImagePanel jpBotoes;
@@ -236,33 +234,10 @@ public class FrameAdmin extends JFrame {
 		}
 		return jbtGerenciarCurso;
 	}
-	private JButton getJbtGerenciarEmenta() {
-		if (jbtGerenciarEmenta == null) {
-			jbtGerenciarEmenta = new JButton("Gerenciar Ementa");
-			jbtGerenciarEmenta.setBounds(0, 306, 183, 45);
-			jbtGerenciarEmenta.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					IFGerenciarEmentas test;
-					try {
-						test = new IFGerenciarEmentas();
-						jpPanel.add(test);
-						test.setVisible(true);
-					} catch (Throwable e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			});
-			jbtGerenciarEmenta.setForeground(new Color(255, 255, 255));
-			jbtGerenciarEmenta.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jbtGerenciarEmenta.setBackground(new Color(0, 153, 51));
-		}
-		return jbtGerenciarEmenta;
-	}
 	private JButton getJbtGerenciarFrequencia() {
 		if (jbtGerenciarFrequencia == null) {
 			jbtGerenciarFrequencia = new JButton("Gerenciar Notas");
-			jbtGerenciarFrequencia.setBounds(0, 357, 183, 45);
+			jbtGerenciarFrequencia.setBounds(0, 311, 183, 45);
 			jbtGerenciarFrequencia.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarNotas test;
@@ -285,7 +260,7 @@ public class FrameAdmin extends JFrame {
 	private JButton getJbtGerenciarDisciplina() {
 		if (jbtGerenciarDisciplina == null) {
 			jbtGerenciarDisciplina = new JButton("Gerenciar Disciplina");
-			jbtGerenciarDisciplina.setBounds(0, 408, 183, 45);
+			jbtGerenciarDisciplina.setBounds(0, 367, 183, 45);
 			jbtGerenciarDisciplina.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarDisciplina test;
@@ -316,7 +291,6 @@ public class FrameAdmin extends JFrame {
 			jpBotoes.add(getJbtGerenciarTurma());
 			jpBotoes.add(getJbtGerenciarAvaliacao());
 			jpBotoes.add(getJbtGerenciarCurso());
-			jpBotoes.add(getJbtGerenciarEmenta());
 			jpBotoes.add(getJbtGerenciarDisciplina());
 			jpBotoes.add(getJbtGerenciarFrequencia());
 			jpBotoes.add(getJbtSair());

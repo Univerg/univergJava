@@ -64,7 +64,7 @@ public class adminDAO {
 				rs.close();
 				st.close();
 
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
@@ -86,7 +86,7 @@ public class adminDAO {
 				ps.close();
 				JOptionPane.showMessageDialog(null, "Admin Deletado!");
 				
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
@@ -112,7 +112,7 @@ public class adminDAO {
 				AuxClass.setAux("");
 				AuxClass.setVal(false);
 
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
@@ -135,7 +135,7 @@ public class adminDAO {
 				}
 				rs.close();
 				st.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
