@@ -1,5 +1,6 @@
 package br.edu.ifsc.univerg.dao;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,12 +17,45 @@ import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
 
 public class adminDAO {
-	public void erro(String msg){
-		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+	public void erro(String msg) {
+		JOptionPane erro = new JOptionPane(msg, JOptionPane.ERROR_MESSAGE);
 		JDialog jd = erro.createDialog("Ocorreu um Erro!");
 		jd.setAlwaysOnTop(true);
 		jd.setVisible(true);
 	}
+
+	public boolean login(String login, String senha) {
+		boolean volta = false;
+		
+		Connection con;
+		try {
+			try {
+				con = Conexao.abrir();
+				PreparedStatement pst = con
+						.prepareStatement("SELECT  login, senha FROM admin WHERE login=? and senha=?");
+				pst.setString(1, login);
+				pst.setString(2, senha);
+
+				ResultSet rs = pst.executeQuery();
+				if (rs.next()) {
+					JOptionPane.showMessageDialog(null, "Acesso Permetido!");
+					volta = true;
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Login e Senha Incorretos!");
+					volta = false;
+				}
+			} catch (SQLException | HeadlessException ex) {
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return volta;
+	}
+
 	public void incluir(AdminModel am) {
 
 		Connection con = null;
@@ -85,7 +119,7 @@ public class adminDAO {
 				ps.execute();
 				ps.close();
 				JOptionPane.showMessageDialog(null, "Admin Deletado!");
-				
+
 			} catch (SQLException e) {
 				erro(e.getMessage().toString());
 			}
@@ -128,7 +162,8 @@ public class adminDAO {
 			con = Conexao.abrir();
 			try {
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery("SELECT nome,login,senha FROM admin WHERE login=  '" + AuxClass.getAux() + "'");
+				ResultSet rs = st
+						.executeQuery("SELECT nome,login,senha FROM admin WHERE login=  '" + AuxClass.getAux() + "'");
 				while (rs.next()) {
 					AdminModel am = new AdminModel(rs.getString("nome"), rs.getString("login"), rs.getString("senha"));
 					result.add(am);

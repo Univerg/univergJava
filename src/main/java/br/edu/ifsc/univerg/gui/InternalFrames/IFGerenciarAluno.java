@@ -298,8 +298,12 @@ public class IFGerenciarAluno extends JInternalFrame {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					String senha1 = new String (jtfSenha.getPassword());
 					String senha2=  new String (jtfSenha2.getPassword());
-					if(jtfNome.getText().trim().isEmpty() || jtfCpf.getText().trim().isEmpty() || jtfRg.getText().trim().isEmpty()||
-							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || sdf.format(jtfNasc.getDate().getTime()).trim().isEmpty() ||
+					String validarcpf= jtfCpf.getText().replaceAll("()_-.", "");
+					String validarfone=jtfTelefone.getText().replaceAll("()_-.", "");
+					String validarcep=jtfCep.getText().replaceAll("()_-.", "");
+					
+					if(jtfNome.getText().trim().isEmpty() || validarcpf.length()!=14|| jtfRg.getText().trim().isEmpty()||
+							validarfone.length()!=15|| validarcep.length()!=10 || sdf.format(jtfNasc.getDate().getTime()).trim().isEmpty() ||
 							jtfEndereco.getText().trim().isEmpty() || jtfCidade.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() ||
 							jtfLogin.getText().trim().isEmpty() || jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
 						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");

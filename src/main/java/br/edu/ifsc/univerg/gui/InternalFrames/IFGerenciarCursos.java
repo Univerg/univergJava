@@ -9,6 +9,7 @@ import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.CursoModel;
 import br.edu.ifsc.univerg.model.ProfessorModel;
+import br.edu.ifsc.univerg.model.ValidarLetra;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -156,6 +157,8 @@ public class IFGerenciarCursos extends JInternalFrame {
 			jtfNome = new JTextField();
 			jtfNome.setColumns(10);
 			jtfNome.setBounds(88, 65, 908, 28);
+			jtfNome.setDocument(new ValidarLetra(50));
+			
 		}
 		return jtfNome;
 	}

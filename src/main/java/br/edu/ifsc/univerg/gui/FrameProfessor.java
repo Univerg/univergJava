@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import com.towel.swing.img.JImagePanel;
 
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarAvaliacoes;
+import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarEmenta;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFGerenciarNotas;
 
 import javax.imageio.ImageIO;
@@ -101,7 +102,7 @@ public class FrameProfessor extends JFrame {
 	private JButton getJbtGerenciarNotas() {
 		if (jbtGerenciarNotas == null) {
 			jbtGerenciarNotas = new JButton("Gerenciar Notas");
-			jbtGerenciarNotas.setBounds(0, 102, 183, 45);
+			jbtGerenciarNotas.setBounds(0, 112, 183, 45);
 			jbtGerenciarNotas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarNotas test;
@@ -129,6 +130,26 @@ public class FrameProfessor extends JFrame {
 			jpBotoes.add(getJbtGerenciarAvaliacoes());
 			jpBotoes.add(getJbtGerenciarNotas());
 			jpBotoes.add(getJbtSair());
+			
+			JButton jbtGerenciarEmenta = new JButton("Gerenciar Ementas");
+			jbtGerenciarEmenta.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					IFGerenciarEmenta test;
+					try {
+						test = new IFGerenciarEmenta();
+						jpPanel.add(test);
+						test.setVisible(true);
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			jbtGerenciarEmenta.setForeground(Color.WHITE);
+			jbtGerenciarEmenta.setFont(new Font("SansSerif", Font.BOLD, 13));
+			jbtGerenciarEmenta.setBackground(new Color(0, 153, 51));
+			jbtGerenciarEmenta.setBounds(0, 56, 183, 45);
+			jpBotoes.add(jbtGerenciarEmenta);
 		}
 		return jpBotoes;
 	}

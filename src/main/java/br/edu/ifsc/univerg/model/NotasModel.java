@@ -7,6 +7,7 @@ public class NotasModel {
 	private float nota1;
 	private float nota2;
 	private float nota3;
+	private String nomeAluno,matriculaAluno;
 	public NotasModel(long id, long id_turma, long id_disciplina, float nota1, float nota2, float nota3) {
 		this.id = id;
 		this.id_turma = id_turma;
@@ -15,6 +16,29 @@ public class NotasModel {
 		this.nota2 = nota2;
 		this.nota3 = nota3;
 	}
+	
+	public NotasModel(String nomeAluno, String matriculaAluno) {
+		super();
+		this.nomeAluno = nomeAluno;
+		this.matriculaAluno = matriculaAluno;
+	}
+
+	public String getNomeAluno() {
+		return nomeAluno;
+	}
+
+	public void setNomeAluno(String nomeAluno) {
+		this.nomeAluno = nomeAluno;
+	}
+
+	public String getMatriculaAluno() {
+		return matriculaAluno;
+	}
+
+	public void setMatriculaAluno(String matriculaAluno) {
+		this.matriculaAluno = matriculaAluno;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -51,10 +75,6 @@ public class NotasModel {
 	public void setNota3(float nota3) {
 		this.nota3 = nota3;
 	}
-	@Override
-	public String toString() {
-		return "NotasModel [id=" + id + ", id_turma=" + id_turma + ", id_disciplina=" + id_disciplina + ", nota1="
-				+ nota1 + ", nota2=" + nota2 + ", nota3=" + nota3 + "]";
-	}
+
 	
 }

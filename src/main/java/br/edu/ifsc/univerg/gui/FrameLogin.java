@@ -6,6 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.AlunoDAO;
+import br.edu.ifsc.univerg.dao.ProfessorDAO;
+import br.edu.ifsc.univerg.dao.adminDAO;
+import br.edu.ifsc.univerg.model.AuxClass;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -130,28 +136,44 @@ public class FrameLogin extends JFrame {
 			jbtLogin = new JButton("Login");
 			jbtLogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if(jtfLogin.getText().equals("1")){
+					adminDAO admin = new adminDAO();
+					ProfessorDAO professor= new ProfessorDAO();
+					AlunoDAO aluno = new AlunoDAO();
+					if(AuxClass.getAux().equals("1")){
 						try {
-							dispose();
-							new FrameAdmin();
+							AuxClass.setAux("");
+							if(admin.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
+								dispose();
+								new FrameAdmin();
+							}
+							
+							
 						} catch (Throwable e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-					else if (jtfLogin.getText().equals("2")){
+					else if (AuxClass.getAux().equals("2")){
 						try {
-							dispose();
-							new FrameProfessor();
+							AuxClass.setAux("");
+							if(professor.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
+								dispose();
+								new FrameProfessor();
+							}
+							
 						} catch (Throwable e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-					else{
+					else if ( AuxClass.getAux().equals("3")){
 						try {
-							dispose();
-							new FrameAluno();
+							AuxClass.setAux("");
+							if(aluno.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
+								dispose();
+								new FrameAluno();
+							}
+							
 						} catch (Throwable e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

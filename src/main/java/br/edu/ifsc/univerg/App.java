@@ -11,8 +11,8 @@ import br.edu.ifsc.univerg.gui.FrameSelecao;
 public class App {
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			//UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+			//UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
 			
 			
 		} catch (Throwable e) {

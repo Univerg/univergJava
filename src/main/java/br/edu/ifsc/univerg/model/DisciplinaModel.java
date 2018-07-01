@@ -28,6 +28,9 @@ public class DisciplinaModel {
 		this.nome = nome;
 		this.ementa=ementa;
 	}
+	public DisciplinaModel( String ementa) {
+		this.ementa=ementa;
+	}
 	public int getId() {
 		return id;
 	}

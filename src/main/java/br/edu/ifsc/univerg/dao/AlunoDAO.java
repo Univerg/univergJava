@@ -1,5 +1,6 @@
 package br.edu.ifsc.univerg.dao;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,37 @@ import br.edu.ifsc.univerg.model.ProfessorModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class AlunoDAO {
+	public boolean login(String login, String senha) {
+		boolean volta = false;
+		
+		Connection con;
+		try {
+			try {
+				con = Conexao.abrir();
+				PreparedStatement pst = con
+						.prepareStatement("SELECT  login, senha FROM aluno WHERE login=? and senha=?");
+				pst.setString(1, login);
+				pst.setString(2, senha);
+
+				ResultSet rs = pst.executeQuery();
+				if (rs.next()) {
+					JOptionPane.showMessageDialog(null, "Acesso Permetido!");
+					volta = true;
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Login e Senha Incorretos!");
+					volta = false;
+				}
+			} catch (SQLException | HeadlessException ex) {
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return volta;
+	}
 	public void erro(String msg){
 		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
 		JDialog jd = erro.createDialog("Ocorreu um Erro!");

@@ -4,9 +4,14 @@ import com.towel.swing.img.JImagePanel;
 import br.edu.ifsc.univerg.dao.ProfessorDAO;
 import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
+import br.edu.ifsc.univerg.model.ValidarLetra;
+import br.edu.ifsc.univerg.model.ValidarNum;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.border.TitledBorder;
@@ -14,6 +19,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -24,10 +31,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import com.toedter.calendar.JDateChooser;
 
 public class IFGerenciarProfessor extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -64,10 +74,26 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JLabel jlbEmail;
 	private JTextField jtfEmail;
 	private JLabel jlNasc;
-	private JTextField jtfNasc;
 	private JLabel jlEspecializacao;
 	private JTextField jtfEspecializacao;
 	private TableRowSorter<TableModel> rowSorter;
+	private JDateChooser jtfNasc;
+	private MaskFormatter Maskara;
+	private String aux;
+
+
+	
+	private void mask() {
+		try {
+			Maskara = new MaskFormatter(aux);
+			Maskara.setValidCharacters("0123456789");
+			Maskara.setPlaceholderCharacter('_');
+
+		} catch (Exception error_mask) {
+			JOptionPane.showMessageDialog(null, "Erro: " + error_mask);
+		}
+
+	}
 
 	/**
 	 * Launch the application.
@@ -147,9 +173,11 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jpCadastro.add(getJlbEmail());
 			jpCadastro.add(getJtfEmail());
 			jpCadastro.add(getJlNasc());
-			jpCadastro.add(getJtfNasc());
 			jpCadastro.add(getJlEspecializacao());
 			jpCadastro.add(getJtfEspecializacao());
+			jpCadastro.add(getJtfNasc());
+			
+
 		}
 		return jpCadastro;
 	}
@@ -187,6 +215,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jtfNome = new JTextField();
 			jtfNome.setBounds(88, 66, 180, 28);
 			jtfNome.setColumns(10);
+			jtfNome.setDocument(new ValidarLetra(50));
 		}
 		return jtfNome;
 	}
@@ -195,6 +224,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jtfLogin = new JTextField();
 			jtfLogin.setColumns(10);
 			jtfLogin.setBounds(85, 182, 180, 28);
+			jtfLogin.setDocument(new ValidarNum(20));
 		}
 		return jtfLogin;
 	}
@@ -213,6 +243,14 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlbNome.setBounds(21, 72, 55, 16);
 		}
 		return jlbNome;
+	}
+	private JDateChooser getJtfNasc() {
+		if(jtfNasc==null) {
+			jtfNasc = new JDateChooser();
+			jtfNasc.setBounds(88, 105, 143, 28);
+			
+		}
+		return jtfNasc;
 	}
 	private JLabel getJlbLogin() {
 		if (jlbLogin == null) {
@@ -242,10 +280,16 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jbtSalvar.setBounds(860, 212, 122, 38);
 			jbtSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					String senha1 = new String (jtfSenha.getPassword());
 					String senha2=  new String (jtfSenha2.getPassword());
-					if(jtfNome.getText().trim().isEmpty() || jtfCpf.getText().trim().isEmpty() || jtfRg.getText().trim().isEmpty()||
-							jtfTelefone.getText().trim().isEmpty()|| jtfCep.getText().trim().isEmpty() || jtfNasc.getText().trim().isEmpty() ||
+					String validarcpf= jtfCpf.getText().replaceAll("()_-.", "");
+					String validarfone=jtfTelefone.getText().replaceAll("()_-.", "");
+					String validarcep=jtfCep.getText().replaceAll("()_-.", "");
+					
+					
+					if(jtfNome.getText().trim().isEmpty() || validarcpf.length()!=14 || jtfRg.getText().trim().isEmpty()||
+							validarfone.length()!=15|| validarcep.length()!=10 ||  sdf.format(jtfNasc.getDate().getTime()).trim().isEmpty() ||
 							jtfEndereco.getText().trim().isEmpty() || jtfCidade.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() ||
 							jtfEspecializacao.getText().trim().isEmpty() || jtfLogin.getText().trim().isEmpty() || jtfSenha.getText().trim().isEmpty()|| jtfSenha2.getText().trim().isEmpty()){
 						JOptionPane.showMessageDialog(null, "Preencha todos dos campos!");
@@ -256,7 +300,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 							jtfRg.getText(), 
 							jtfTelefone.getText(), 
 							jtfCep.getText(), 
-							jtfNasc.getText(), 
+							sdf.format(jtfNasc.getDate().getTime()), 
 							jtfEndereco.getText(), 
 							jtfCidade.getText(), 
 							jtfEmail.getText(), 
@@ -357,23 +401,31 @@ public class IFGerenciarProfessor extends JInternalFrame {
 					ProfessorDAO professor = new ProfessorDAO();
 					professor.buscarAlteracoes();
 					 List<ProfessorModel> dados = professor.buscarAlteracoes();
+					 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						// carrega pessoas da lista
 					 //test
 					 //
 						for (ProfessorModel pr : dados) {
 							// inclui uma linha na tabela
-							jtfNome.setText( pr.getNome());
-							jtfCpf.setText(pr.getCpf());
-							jtfRg.setText(pr.getRg());
-							jtfTelefone.setText(pr.getFone());
-							jtfCep.setText(pr.getCep());
-							jtfNasc.setText(pr.getNascimento());
-							jtfEndereco.setText(pr.getEndereco());
-							jtfCidade.setText(pr.getCidade());
-							jtfEmail.setText(pr.getEmail());
-							jtfEspecializacao.setText(pr.getEspecializacao());
-							jtfLogin.setText(pr.getLogin());
-							jtfSenha.setText(pr.getSenha());
+							
+							try {
+								jtfNome.setText( pr.getNome());
+								jtfCpf.setText(pr.getCpf());
+								jtfRg.setText(pr.getRg());
+								jtfTelefone.setText(pr.getFone());
+								jtfCep.setText(pr.getCep());
+								jtfNasc.setDate(sdf.parse(pr.getNascimento()));
+								jtfEndereco.setText(pr.getEndereco());
+								jtfCidade.setText(pr.getCidade());
+								jtfEmail.setText(pr.getEmail());
+								jtfEspecializacao.setText(pr.getEspecializacao());
+								jtfLogin.setText(pr.getLogin());
+								jtfSenha.setText(pr.getSenha());
+							} catch (ParseException e1) {
+								JOptionPane erro = new JOptionPane(e1,JOptionPane.ERROR_MESSAGE);
+								JDialog jd = erro.createDialog("Ocorreu um Erro!");
+							}
+							
 							
 					}
 				}
@@ -458,6 +510,9 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JTextField getJtfCpf() {
 		if (jtfCpf == null) {
 			jtfCpf = new JTextField();
+			aux = ("###.###.###-##");
+			mask();
+			jtfCpf= new javax.swing.JFormattedTextField(Maskara);
 			jtfCpf.setColumns(10);
 			jtfCpf.setBounds(315, 66, 122, 28);
 		}
@@ -468,6 +523,8 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jtfRg = new JTextField();
 			jtfRg.setColumns(10);
 			jtfRg.setBounds(476, 66, 122, 28);
+			jtfRg.setDocument(new ValidarNum(12));
+			
 		}
 		return jtfRg;
 	}
@@ -483,6 +540,9 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JTextField getJtfTelefone() {
 		if (jtfTelefone == null) {
 			jtfTelefone = new JTextField();
+			aux = ("(###)#####-####");
+			mask();
+			jtfTelefone= new javax.swing.JFormattedTextField(Maskara);
 			jtfTelefone.setColumns(10);
 			jtfTelefone.setBounds(649, 66, 122, 28);
 		}
@@ -500,8 +560,11 @@ public class IFGerenciarProfessor extends JInternalFrame {
 	private JTextField getJtfCep() {
 		if (jtfCep == null) {
 			jtfCep = new JTextField();
+			aux = ("##.###-###");
+			mask();
+			jtfCep= new javax.swing.JFormattedTextField(Maskara);
 			jtfCep.setColumns(10);
-			jtfCep.setBounds(822, 66, 122, 28);
+			jtfCep.setBounds(822, 66, 160, 28);
 		}
 		return jtfCep;
 	}
@@ -518,7 +581,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 		if (jtfEndereco == null) {
 			jtfEndereco = new JTextField();
 			jtfEndereco.setColumns(10);
-			jtfEndereco.setBounds(270, 106, 180, 28);
+			jtfEndereco.setBounds(308, 103, 180, 28);
 		}
 		return jtfEndereco;
 	}
@@ -527,7 +590,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlbEndereo = new JLabel("Endereço:");
 			jlbEndereo.setForeground(new Color(0, 153, 51));
 			jlbEndereo.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbEndereo.setBounds(203, 112, 73, 16);
+			jlbEndereo.setBounds(241, 109, 73, 16);
 		}
 		return jlbEndereo;
 	}
@@ -535,7 +598,8 @@ public class IFGerenciarProfessor extends JInternalFrame {
 		if (jtfCidade == null) {
 			jtfCidade = new JTextField();
 			jtfCidade.setColumns(10);
-			jtfCidade.setBounds(517, 106, 180, 28);
+			jtfCidade.setBounds(555, 103, 180, 28);
+			jtfCidade.setDocument(new ValidarLetra(50));
 		}
 		return jtfCidade;
 	}
@@ -544,7 +608,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlbCidade = new JLabel("Cidade:");
 			jlbCidade.setForeground(new Color(0, 153, 51));
 			jlbCidade.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbCidade.setBounds(462, 112, 67, 16);
+			jlbCidade.setBounds(500, 109, 67, 16);
 		}
 		return jlbCidade;
 	}
@@ -553,7 +617,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlbEmail = new JLabel("Email:");
 			jlbEmail.setForeground(new Color(0, 153, 51));
 			jlbEmail.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlbEmail.setBounds(709, 112, 67, 16);
+			jlbEmail.setBounds(747, 109, 67, 16);
 		}
 		return jlbEmail;
 	}
@@ -561,7 +625,7 @@ public class IFGerenciarProfessor extends JInternalFrame {
 		if (jtfEmail == null) {
 			jtfEmail = new JTextField();
 			jtfEmail.setColumns(10);
-			jtfEmail.setBounds(764, 106, 180, 28);
+			jtfEmail.setBounds(802, 103, 180, 28);
 		}
 		return jtfEmail;
 	}
@@ -573,14 +637,6 @@ public class IFGerenciarProfessor extends JInternalFrame {
 			jlNasc.setBounds(21, 112, 73, 16);
 		}
 		return jlNasc;
-	}
-	private JTextField getJtfNasc() {
-		if (jtfNasc == null) {
-			jtfNasc = new JTextField();
-			jtfNasc.setColumns(10);
-			jtfNasc.setBounds(88, 106, 103, 28);
-		}
-		return jtfNasc;
 	}
 	private JLabel getJlEspecializacao() {
 		if (jlEspecializacao == null) {

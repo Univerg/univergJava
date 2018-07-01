@@ -7,11 +7,16 @@ import com.towel.swing.img.JImagePanel;
 
 import br.edu.ifsc.univerg.dao.AvaliacaoDAO;
 import br.edu.ifsc.univerg.dao.NotasDAO;
+import br.edu.ifsc.univerg.dao.adminDAO;
+import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
+import br.edu.ifsc.univerg.model.NotasModel;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -69,7 +74,6 @@ public class IFGerenciarNotas extends JInternalFrame {
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
-		boxDisc();
 		boxTurma();
 
 	}
@@ -131,16 +135,31 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private void boxDisc() {
 		NotasDAO dao = new NotasDAO();
 		jcbDisciplina.removeAllItems();
-		jcbDisciplina.addItem("");
 		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_disciplina().toArray());
 		jcbDisciplina.setModel(defaultComboBox);
+		
 	}
 	private void boxTurma() {
 		NotasDAO dao = new NotasDAO();
 		jcbTurma.removeAllItems();
-		jcbTurma.addItem("");
 		DefaultComboBoxModel defaultComboBox = new DefaultComboBoxModel(dao.busca_turma().toArray());
 		jcbTurma.setModel(defaultComboBox);
+		
+	}
+	private void carregarALunos() {
+
+		NotasDAO notas = new NotasDAO();
+		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
+
+		// limpa a tabela
+		model.setRowCount(0);
+		List<NotasModel> dados = notas.busca_aluno();
+
+		// carrega pessoas da lista
+		for (NotasModel nm : dados) {
+			// inclui uma linha na tabela
+			model.addRow(new Object[] { nm.getNomeAluno(),nm.getMatriculaAluno() });
+		}
 	}
 	private JLabel getJlbDisciplina() {
 		if (jlbDisciplina == null) {
@@ -253,6 +272,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
+			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
@@ -283,13 +303,20 @@ public class IFGerenciarNotas extends JInternalFrame {
 		if (jcbTurma == null) {
 			jcbTurma = new JComboBox();
 			jcbTurma.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent arg0) {
-					NotasDAO dao = new NotasDAO();
-					dao.busca_disciplina();
-					AuxClass.setAux(jcbTurma.getSelectedItem().toString());
-					boxDisc();
-				}
-			});
+
+	            @Override
+	            public void itemStateChanged(ItemEvent e) {
+	                // 
+	                if (e.getStateChange() == ItemEvent.SELECTED) {
+	                	NotasDAO dao = new NotasDAO();
+						dao.busca_disciplina();
+						AuxClass.setAux(e.getItem().toString());
+						boxDisc();
+	                }
+	                    
+	            }
+	        });
+			
 			jcbTurma.setBounds(86, 14, 173, 28);
 		}
 		return jcbTurma;
@@ -297,6 +324,20 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JComboBox getJcbDisciplina() {
 		if (jcbDisciplina == null) {
 			jcbDisciplina = new JComboBox();
+			jcbDisciplina.addItemListener(new ItemListener() {
+
+	            @Override
+	            public void itemStateChanged(ItemEvent e) {
+	                // 
+	                if (e.getStateChange() == ItemEvent.SELECTED) {
+	                	NotasDAO dao = new NotasDAO();
+						dao.busca_aluno();
+						AuxClass.setAux(e.getItem().toString());
+						carregarALunos();
+	                }
+	                    
+	            }
+	        });
 			jcbDisciplina.setBounds(359, 14, 173, 28);
 		}
 		return jcbDisciplina;

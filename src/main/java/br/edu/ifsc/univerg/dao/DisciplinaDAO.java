@@ -14,6 +14,33 @@ import br.edu.ifsc.univerg.model.DisciplinaModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class DisciplinaDAO {
+	public void alterarEmenta(DisciplinaModel disciplinaModel, String var) {
+		Connection con;
+		try {
+			con = Conexao.abrir();
+			String sql = "UPDATE disciplina SET ementa= ? WHERE id= ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, disciplinaModel.getEmenta());
+				ps.setString(2, var);
+				ps.execute();
+				ps.close();
+				con.close();
+				AuxClass.setAux("");
+				AuxClass.setAux2("");
+				AuxClass.setVal(false);
+				JOptionPane.showMessageDialog(null, "Ementa Cadastrada/Alterada!");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
 	public void incluir (DisciplinaModel disciplinaModel){
 		Connection con;
 		try {

@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.model.AuxClass;
+
 import java.awt.Window.Type;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -78,6 +81,7 @@ public class FrameSelecao extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					try {
+						AuxClass.setAux("1");
 						dispose();
 						new FrameLogin();
 					} catch (Throwable e) {
@@ -99,6 +103,8 @@ public class FrameSelecao extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					try {
+						AuxClass.setAux("2");
+						dispose();
 						new FrameLogin();
 					} catch (Throwable e1) {
 						// TODO Auto-generated catch block
@@ -119,6 +125,8 @@ public class FrameSelecao extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					try {
+						AuxClass.setAux("3");
+						dispose();
 						new FrameLogin();
 					} catch (Throwable e1) {
 						// TODO Auto-generated catch block

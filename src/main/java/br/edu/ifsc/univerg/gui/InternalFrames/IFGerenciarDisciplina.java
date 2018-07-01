@@ -12,6 +12,7 @@ import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.DisciplinaModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
+import br.edu.ifsc.univerg.model.ValidarLetra;
 
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -236,6 +237,7 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 			jtfNome = new JTextField();
 			jtfNome.setBounds(91, 21, 428, 28);
 			jtfNome.setColumns(10);
+			jtfNome.setDocument(new ValidarLetra(50));
 		}
 		return jtfNome;
 	}
