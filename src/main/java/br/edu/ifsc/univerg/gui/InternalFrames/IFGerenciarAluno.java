@@ -123,6 +123,7 @@ public class IFGerenciarAluno extends JInternalFrame {
 		jtTabela.setRowSorter(rowSorter);
 		boxCursos();
 		tabela();
+	
 
 	}
 	public void tabela(){

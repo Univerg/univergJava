@@ -50,7 +50,7 @@ public class TurmaDAO {
 
 			try {
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery("select id,  CONCAT (prefix,id) AS cod from turma");
+				ResultSet rs = st.executeQuery("SELECT id,  CONCAT (prefix,id) AS cod from turma");
 				while (rs.next()) {
 					TurmaModel tm = new TurmaModel(rs.getString("id"), rs.getString("cod"));
 					result.add(tm);
