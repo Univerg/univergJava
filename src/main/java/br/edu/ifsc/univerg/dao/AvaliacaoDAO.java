@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import br.edu.ifsc.univerg.model.AuxClass;
@@ -16,6 +17,38 @@ import br.edu.ifsc.univerg.model.DisciplinaModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class AvaliacaoDAO {
+	public void erro(String msg){
+		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+		JDialog jd = erro.createDialog("Ocorreu um Erro!");
+		jd.setAlwaysOnTop(true);
+		jd.setVisible(true);
+	}
+	public List<AvaliacaoModel> selectAvaliacaoAluno() {
+		Connection con;
+		List<AvaliacaoModel> result = new ArrayList<AvaliacaoModel>();
+		try {
+			con = Conexao.abrir();
+
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery("select avaliacao.data1 ,disciplina.nome from avaliacao inner join disciplina where avaliacao.id_turma='"+AuxClass.getAuxaluno()+"'");
+				while (rs.next()) {
+					AvaliacaoModel avaliacaoModel = new AvaliacaoModel(rs.getString("avaliacao.data1"),rs.getString("disciplina.nome"));
+					result.add(avaliacaoModel);
+				}
+				rs.close();
+				st.close();
+
+			} catch (Exception e) {
+				erro(e.getMessage().toString());
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			erro(e1.getMessage().toString());
+		}
+
+		return result;
+	}
 	public void incluir(AvaliacaoModel avaliacaoModel) {
 		Connection con = null;
 		try {
@@ -37,11 +70,11 @@ public class AvaliacaoDAO {
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Avaliação Cadastrada!");
 			} catch (SQLException u) {
-				throw new RuntimeException(u);
+				erro(u.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 	}
@@ -59,11 +92,11 @@ public class AvaliacaoDAO {
 				st.close();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return strList;
@@ -82,11 +115,11 @@ public class AvaliacaoDAO {
 				st.close();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return strList;
@@ -110,11 +143,11 @@ public class AvaliacaoDAO {
 				st.close();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 
 		return result;
@@ -132,11 +165,11 @@ public class AvaliacaoDAO {
 		   		con.close();
 		   		JOptionPane.showMessageDialog(null, "Avaliação Excluída!");
 				} catch (Exception e) {
-					e.printStackTrace();
+					erro(e.getMessage().toString());
 				}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 	}
 	public List<AvaliacaoModel> buscarAlteracoes() {
@@ -161,11 +194,11 @@ public class AvaliacaoDAO {
 				rs.close();
 				st.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		return result;
 	}
@@ -191,12 +224,12 @@ public class AvaliacaoDAO {
 				JOptionPane.showMessageDialog(null, "Avaliação Alterada!");
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 				// TODO: handle exception
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 
 	}

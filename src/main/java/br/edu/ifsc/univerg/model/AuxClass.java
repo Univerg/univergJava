@@ -3,7 +3,17 @@ package br.edu.ifsc.univerg.model;
 public class AuxClass {
 	static String aux;
 	static String aux2;
+	static String auxaluno;
 	static Boolean val=false;
+
+	
+	public static String getAuxaluno() {
+		return auxaluno;
+	}
+
+	public static void setAuxaluno(String auxaluno) {
+		AuxClass.auxaluno = auxaluno;
+	}
 
 	public static String getAux() {
 		return aux;

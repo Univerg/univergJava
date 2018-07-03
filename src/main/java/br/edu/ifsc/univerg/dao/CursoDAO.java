@@ -7,12 +7,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import br.edu.ifsc.univerg.model.CursoModel;
 import br.edu.ifsc.univerg.model.AuxClass;
 
 public class CursoDAO {
+	public void erro(String msg){
+		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+		JDialog jd = erro.createDialog("Ocorreu um Erro!");
+		jd.setAlwaysOnTop(true);
+		jd.setVisible(true);
+	}
 
 	public void incluir(CursoModel curso) {
 		Connection con;
@@ -30,11 +37,11 @@ public class CursoDAO {
 				JOptionPane.showMessageDialog(null, "Curso Cadastrado");
 
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				erro(e.getMessage().toString());
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 	}
 
@@ -59,10 +66,10 @@ public class CursoDAO {
 				st.close();
 				con.close();
 			}catch (Exception e) {
-				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			erro(e.getMessage().toString());
 		}
 		
 		return result;
@@ -80,11 +87,11 @@ public class CursoDAO {
 				con.close();
 				JOptionPane.showMessageDialog(null, "Curso Deletado!");
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 
 	}
@@ -104,10 +111,10 @@ public class CursoDAO {
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Curso Alterado!");
 			} catch (Exception e) {
-				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			erro(e.getMessage().toString());
 		}
 	}
 	public List<CursoModel> buscarAlteracoes() {
@@ -126,11 +133,11 @@ public class CursoDAO {
 				st.close();
 				con.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		return result;
 	}

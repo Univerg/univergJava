@@ -18,6 +18,32 @@ import br.edu.ifsc.univerg.model.ProfessorModel;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class AlunoDAO {
+	public void selectDadosAluno(String login){
+		   Connection con;
+		  String result = null ;
+		try {
+			con =  Conexao.abrir();			
+		       try {
+		           Statement st = con.createStatement();
+		           ResultSet rs = st.executeQuery("select aluno.id_turma from aluno where login = '"+login+"'");
+		           while(rs.next()){
+		        	  result= rs.getString("aluno.id_turma");
+		           }
+		           rs.close();
+		           st.close();
+		           con.close();
+		       } catch (SQLException e) {
+		    	   erro(e.getMessage().toString());
+		           
+		       }
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			erro(e1.getMessage().toString());
+		}
+		     
+	       
+	       AuxClass.setAuxaluno(result);
+	   }
 	public boolean login(String login, String senha) {
 		boolean volta = false;
 		
@@ -40,11 +66,11 @@ public class AlunoDAO {
 					volta = false;
 				}
 			} catch (SQLException | HeadlessException ex) {
-				JOptionPane.showMessageDialog(null, ex);
+				erro(ex.getMessage().toString());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return volta;

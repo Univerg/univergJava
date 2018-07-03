@@ -20,6 +20,12 @@ public class AvaliacaoModel {
 		this.nome_Disciplina = nome_Disciplina;
 	}
 
+	public AvaliacaoModel(String data, String nome_Disciplina) {
+		super();
+		this.data = data;
+		this.nome_Disciplina = nome_Disciplina;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -4,9 +4,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import com.towel.swing.img.JImagePanel;
+
+import br.edu.ifsc.univerg.dao.AvaliacaoDAO;
+import br.edu.ifsc.univerg.model.AvaliacaoModel;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -48,8 +53,25 @@ public class IFAvaliacoes extends JInternalFrame {
 		setBounds(100, 100, 1070, 676);
 		getContentPane().setLayout(null);
 		getContentPane().add(getImagePanel());
+		tabela();
 
 	}
+	private void tabela() {
+
+		AvaliacaoDAO avaliacaoDAO = new AvaliacaoDAO();
+		DefaultTableModel model = (DefaultTableModel) jtTabela.getModel();
+
+		// limpa a tabela
+		model.setRowCount(0);
+		List<AvaliacaoModel> dados = avaliacaoDAO.selectAvaliacaoAluno();
+
+		// carrega pessoas da lista
+		for (AvaliacaoModel am : dados) {
+			// inclui uma linha na tabela
+			model.addRow(new Object[] { am.getData(),am.getNome_Disciplina()});
+		}
+	}
+	
 	private JImagePanel getImagePanel() throws Throwable {
 		if (imagePanel == null) {
 			imagePanel = new JImagePanel(loadImage("panel.png"));
@@ -99,6 +121,7 @@ public class IFAvaliacoes extends JInternalFrame {
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
+			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
@@ -106,22 +129,26 @@ public class IFAvaliacoes extends JInternalFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Data", "Avalia\u00E7\u00E3o", "Peso"
+					"Data", "Avalia\u00E7\u00E3o"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class
+					String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
+				boolean[] columnEditables = new boolean[] {
+					false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 			});
 			jtTabela.getColumnModel().getColumn(0).setResizable(false);
-			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(205);
+			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(313);
 			jtTabela.getColumnModel().getColumn(1).setResizable(false);
-			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(205);
-			jtTabela.getColumnModel().getColumn(2).setResizable(false);
-			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(205);
+			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(313);
 		}
 		return jtTabela;
 	}

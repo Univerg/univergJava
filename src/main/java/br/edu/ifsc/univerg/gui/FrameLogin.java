@@ -166,7 +166,7 @@ public class FrameLogin extends JFrame {
 					}
 					else if ( AuxClass.getAux().equals("3")){
 						try {
-							
+							aluno.selectDadosAluno(jtfLogin.getText());
 							if(aluno.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
 								dispose();
 								new FrameAluno();

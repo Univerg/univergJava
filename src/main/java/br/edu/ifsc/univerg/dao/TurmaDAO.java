@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import br.edu.ifsc.univerg.model.AdminModel;
@@ -18,6 +19,12 @@ import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.TurmaModel;
 
 public class TurmaDAO {
+	public void erro(String msg){
+		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+		JDialog jd = erro.createDialog("Ocorreu um Erro!");
+		jd.setAlwaysOnTop(true);
+		jd.setVisible(true);
+	}
 	public List<String> busca_curso() {
 		List<String> strList = new ArrayList<String>();
 		try {
@@ -32,11 +39,10 @@ public class TurmaDAO {
 				st.close();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return strList;
@@ -59,11 +65,10 @@ public class TurmaDAO {
 				st.close();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 
 		return result;
@@ -82,10 +87,10 @@ public class TurmaDAO {
 				rs.close();
 				st.close();
 			} catch (Exception e) {
-				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			erro(e.getMessage().toString());
 		}
 		return result;
 
@@ -108,11 +113,10 @@ public class TurmaDAO {
 				rs.close();
 				st.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		return result;
 	}
@@ -135,12 +139,10 @@ public class TurmaDAO {
 				JOptionPane.showMessageDialog(null, "Admin Alterado!");
 
 			} catch (Exception e) {
-				e.printStackTrace();
-				// TODO: handle exception
+				erro(e.getMessage().toString());
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 
 	}
@@ -163,11 +165,10 @@ public class TurmaDAO {
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Turma Cadastrado!");
 			} catch (SQLException u) {
-				throw new RuntimeException(u);
+				erro(u.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 	}
@@ -184,11 +185,10 @@ public class TurmaDAO {
 		   		con.close();
 		   		JOptionPane.showMessageDialog(null, "Turma Excluída!");
 				} catch (Exception e) {
-					e.printStackTrace();
+					erro(e.getMessage().toString());
 				}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 	   	
 	   }

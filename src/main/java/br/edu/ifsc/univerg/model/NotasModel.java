@@ -7,7 +7,7 @@ public class NotasModel {
 	private float nota1;
 	private float nota2;
 	private float nota3;
-	private String nomeAluno,matriculaAluno;
+	private String nomeAluno,matriculaAluno,turma,disciplina;
 	public NotasModel(long id, long id_turma, long id_disciplina, float nota1, float nota2, float nota3) {
 		this.id = id;
 		this.id_turma = id_turma;
@@ -21,6 +21,27 @@ public class NotasModel {
 		super();
 		this.nomeAluno = nomeAluno;
 		this.matriculaAluno = matriculaAluno;
+	}
+
+	public NotasModel(String matriculaAluno, String turma, String disciplina,float nota1, float nota2, float nota3 ) {
+		super();
+		this.matriculaAluno = matriculaAluno;
+		this.turma = turma;
+		this.disciplina = disciplina;
+		this.nota1 = nota1;
+		this.nota2 = nota2;
+		this.nota3 = nota3;
+	}
+	
+
+	public NotasModel(String nomeAluno, String matriculaAluno,float nota1, float nota2, float nota3) {
+		super();
+		this.nomeAluno = nomeAluno;
+		this.matriculaAluno = matriculaAluno;
+		this.nota1 = nota1;
+		this.nota2 = nota2;
+		this.nota3 = nota3;
+		
 	}
 
 	public String getNomeAluno() {
@@ -74,6 +95,22 @@ public class NotasModel {
 	}
 	public void setNota3(float nota3) {
 		this.nota3 = nota3;
+	}
+
+	public String getTurma() {
+		return turma;
+	}
+
+	public void setTurma(String turma) {
+		this.turma = turma;
+	}
+
+	public String getDisciplina() {
+		return disciplina;
+	}
+
+	public void setDisciplina(String disciplina) {
+		this.disciplina = disciplina;
 	}
 
 	

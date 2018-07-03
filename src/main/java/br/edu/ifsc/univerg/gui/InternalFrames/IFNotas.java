@@ -113,6 +113,7 @@ public class IFNotas extends JInternalFrame {
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
+			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
@@ -120,11 +121,11 @@ public class IFNotas extends JInternalFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Disciplina", "Nota 1", "Nota 2", "Nota 3", "Faltas"
+					"Disciplina", "Nota 1", "Nota 2", "Nota 3"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class, String.class, String.class
+					String.class, String.class, String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -138,8 +139,6 @@ public class IFNotas extends JInternalFrame {
 			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(90);
 			jtTabela.getColumnModel().getColumn(3).setResizable(false);
 			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(90);
-			jtTabela.getColumnModel().getColumn(4).setResizable(false);
-			jtTabela.getColumnModel().getColumn(4).setPreferredWidth(90);
 		}
 		return jtTabela;
 	}

@@ -44,11 +44,10 @@ public class ProfessorDAO {
 					volta = false;
 				}
 			} catch (SQLException | HeadlessException ex) {
-				JOptionPane.showMessageDialog(null, ex);
+				erro(ex.getMessage().toString());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 
 		return volta;
@@ -80,12 +79,11 @@ public class ProfessorDAO {
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Professor Cadastrado!");
 			} catch (SQLException u) {
-				throw new RuntimeException(u);
+				erro(u.getMessage().toString());
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			erro(e.getMessage().toString());
 		}
 		
 	}
@@ -108,11 +106,10 @@ public class ProfessorDAO {
 		           st.close();
 		           con.close();
 		       } catch (Exception e) {
-		           e.printStackTrace();
+		    	   erro(e.getMessage().toString());
 		       }
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 		     
 	       
@@ -132,11 +129,10 @@ public class ProfessorDAO {
 		   		con.close();
 		   		JOptionPane.showMessageDialog(null, "Professor Deletado! ");
 				} catch (Exception e) {
-					e.printStackTrace();
+					erro(e.getMessage().toString());
 				}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 	   	
 	   }
@@ -171,14 +167,12 @@ public class ProfessorDAO {
 		           st.close();
 		           con.close();
 		       } catch (Exception e) {
-		           e.printStackTrace();
+		    	   erro(e.getMessage().toString());
 		       }
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
-		     
-	       System.out.println(result);
+
 	       return result;
 	   }
 	public void alterarProfessor ( ProfessorModel professor ,String var){
@@ -209,12 +203,10 @@ public class ProfessorDAO {
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Professor Alterado!");
 				} catch (Exception e) {
-					e.printStackTrace();
-					// TODO: handle exception
+					erro(e.getMessage().toString());
 				}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			erro(e1.getMessage().toString());
 		}
 	   	
 	   }

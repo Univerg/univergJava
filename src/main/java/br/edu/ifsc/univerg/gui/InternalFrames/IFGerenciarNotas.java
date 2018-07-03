@@ -10,6 +10,8 @@ import br.edu.ifsc.univerg.dao.NotasDAO;
 import br.edu.ifsc.univerg.dao.adminDAO;
 import br.edu.ifsc.univerg.model.AdminModel;
 import br.edu.ifsc.univerg.model.AuxClass;
+
+import br.edu.ifsc.univerg.model.ButtonRenderer;
 import br.edu.ifsc.univerg.model.NotasModel;
 
 import java.awt.image.BufferedImage;
@@ -64,10 +66,15 @@ public class IFGerenciarNotas extends JInternalFrame {
 	 * Launch the application.
 
 
+
+
 	/**
 	 * Create the frame.
 	 * @throws Throwable 
 	 */
+	
+	
+	
 	public IFGerenciarNotas() throws Throwable {
 		((javax.swing.plaf.basic.BasicInternalFrameUI) 
 				getUI()).setNorthPane(null);
@@ -159,7 +166,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 		// carrega pessoas da lista
 		for (NotasModel nm : dados) {
 			// inclui uma linha na tabela
-			model.addRow(new Object[] { nm.getNomeAluno(),nm.getMatriculaAluno() });
+			model.addRow(new Object[] { nm.getNomeAluno(),nm.getMatriculaAluno(),nm.getNota1(),nm.getNota2(),nm.getNota3() });
 		}
 	}
 	private JLabel getJlbDisciplina() {
@@ -244,37 +251,72 @@ public class IFGerenciarNotas extends JInternalFrame {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
 			
-			jtTabela.addMouseListener(new MouseAdapter(){
-			      public void mouseClicked(MouseEvent e){
-			        if(e.getClickCount() == 2){
-			          JOptionPane.showMessageDialog(null, "test");
-			        }
-			      }
-			     });
+			
 			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
+			
 			jtTabela.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
-					"Nome", "Matr\u00EDcula", "Nota 1", "Nota 2", "Nota 3", "M\u00E9dia"
+					"Nome", "Matr\u00EDcula", "Nota 1", "Nota 2", "Nota 3", "M\u00E9dia", ""
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class, String.class, String.class, String.class
+					String.class, String.class, String.class, String.class, String.class, String.class, Object.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, true, true, true, true, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 			});
+			jtTabela.getColumnModel().getColumn(0).setResizable(false);
 			jtTabela.getColumnModel().getColumn(0).setPreferredWidth(160);
+			jtTabela.getColumnModel().getColumn(1).setResizable(false);
 			jtTabela.getColumnModel().getColumn(1).setPreferredWidth(102);
+			jtTabela.getColumnModel().getColumn(2).setResizable(false);
 			jtTabela.getColumnModel().getColumn(2).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(3).setResizable(false);
 			jtTabela.getColumnModel().getColumn(3).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(4).setResizable(false);
 			jtTabela.getColumnModel().getColumn(4).setPreferredWidth(90);
-			jtTabela.getColumnModel().getColumn(5).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(5).setResizable(false);
+			jtTabela.getColumnModel().getColumn(6).setResizable(false);
+			jtTabela.getColumnModel().getColumn(6).setPreferredWidth(90);
+			jtTabela.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+			
+			
+			
+			jtTabela.addMouseListener(new MouseAdapter(){
+			      public void mouseClicked(MouseEvent e){
+			        int coluna= jtTabela.getSelectedColumn();
+			        if(coluna==6) {
+			        	DefaultTableModel tableModel = (DefaultTableModel) jtTabela.getModel();
+						int row = jtTabela.getSelectedRow();
+						NotasDAO dao = new NotasDAO();
+						int tamanho= tableModel.getValueAt(row, 2).toString().length();
+						NotasModel notas = new NotasModel(tableModel.getValueAt(row, 1).toString().toString().toString(),
+								jcbTurma.getSelectedItem().toString(),
+								jcbDisciplina.getSelectedItem().toString(),
+								Float.parseFloat(tableModel.getValueAt(row, 2).toString().toString()),
+								Float.parseFloat(tableModel.getValueAt(row, 3).toString().toString()),
+								Float.parseFloat(tableModel.getValueAt(row, 4).toString().toString()));
+						if(tamanho==0) {
+								dao.incluir(notas);}
+						else {
+							dao.alterar(notas);
+						}
+
+			        }
+			      }
+			     });
 		}
 		return jtTabela;
 	}
