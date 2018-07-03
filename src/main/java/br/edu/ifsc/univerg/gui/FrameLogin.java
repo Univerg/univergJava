@@ -40,8 +40,6 @@ public class FrameLogin extends JFrame {
 	private JButton jbtCancelar;
 	private JButton jbtLogin;
 	
-
-
 	public FrameLogin() throws Throwable  {
 		setUndecorated(true);
 		setTitle("Login - UNIVERG");
@@ -141,7 +139,7 @@ public class FrameLogin extends JFrame {
 					AlunoDAO aluno = new AlunoDAO();
 					if(AuxClass.getAux().equals("1")){
 						try {
-							AuxClass.setAux("");
+							
 							if(admin.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
 								dispose();
 								new FrameAdmin();
@@ -155,7 +153,7 @@ public class FrameLogin extends JFrame {
 					}
 					else if (AuxClass.getAux().equals("2")){
 						try {
-							AuxClass.setAux("");
+							
 							if(professor.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
 								dispose();
 								new FrameProfessor();
@@ -168,7 +166,7 @@ public class FrameLogin extends JFrame {
 					}
 					else if ( AuxClass.getAux().equals("3")){
 						try {
-							AuxClass.setAux("");
+							
 							if(aluno.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
 								dispose();
 								new FrameAluno();

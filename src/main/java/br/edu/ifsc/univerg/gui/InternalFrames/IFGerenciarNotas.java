@@ -41,6 +41,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IFGerenciarNotas extends JInternalFrame {
 	private JImagePanel imagePanel;
@@ -57,7 +59,6 @@ public class IFGerenciarNotas extends JInternalFrame {
 	private JTable jtTabela;
 	private JComboBox jcbTurma;
 	private JComboBox jcbDisciplina;
-	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -236,42 +237,20 @@ public class IFGerenciarNotas extends JInternalFrame {
 			jspTabela = new JScrollPane();
 			jspTabela.setBounds(10, 107, 988, 462);
 			jspTabela.setViewportView(getJtTabela());
-			
-			JImagePanel imagePanel_1 = new JImagePanel((BufferedImage) null);
-			imagePanel_1.setLayout(null);
-			imagePanel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Cadastro/ Alterar / Deletar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 51)));
-			jspTabela.setColumnHeaderView(imagePanel_1);
-			
-			JLabel label = new JLabel("Diciplina:");
-			label.setForeground(new Color(0, 153, 51));
-			label.setFont(new Font("SansSerif", Font.BOLD, 13));
-			label.setBounds(453, 19, 86, 16);
-			imagePanel_1.add(label);
-			
-			JComboBox comboBox = new JComboBox();
-			comboBox.setBounds(536, 14, 173, 28);
-			imagePanel_1.add(comboBox);
-			
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 107, 988, 462);
-			imagePanel_1.add(scrollPane);
-			
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(88, 53, 621, 28);
-			imagePanel_1.add(textField_1);
-			
-			JLabel label_1 = new JLabel("Buscar:");
-			label_1.setForeground(new Color(0, 153, 51));
-			label_1.setFont(new Font("SansSerif", Font.BOLD, 13));
-			label_1.setBounds(21, 59, 55, 16);
-			imagePanel_1.add(label_1);
 		}
 		return jspTabela;
 	}
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
+			
+			jtTabela.addMouseListener(new MouseAdapter(){
+			      public void mouseClicked(MouseEvent e){
+			        if(e.getClickCount() == 2){
+			          JOptionPane.showMessageDialog(null, "test");
+			        }
+			      }
+			     });
 			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);

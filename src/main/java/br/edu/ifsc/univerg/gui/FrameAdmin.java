@@ -95,6 +95,7 @@ public class FrameAdmin extends JFrame {
 					
 					IFGerenciarAdmin test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarAdmin();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -121,6 +122,7 @@ public class FrameAdmin extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					IFGerenciarAluno test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarAluno();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -148,6 +150,7 @@ public class FrameAdmin extends JFrame {
 					
 					IFGerenciarProfessor test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarProfessor();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -172,6 +175,7 @@ public class FrameAdmin extends JFrame {
 					
 					IFGerenciarTurmas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarTurmas();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -195,6 +199,7 @@ public class FrameAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarAvaliacoes test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarAvaliacoes();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -218,6 +223,7 @@ public class FrameAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarCursos test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarCursos();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -242,6 +248,7 @@ public class FrameAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarNotas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarNotas();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -265,6 +272,7 @@ public class FrameAdmin extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarDisciplina test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarDisciplina();
 						jpPanel.add(test);
 						test.setVisible(true);

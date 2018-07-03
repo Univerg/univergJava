@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import br.edu.ifsc.univerg.dao.Conexao;
@@ -15,6 +16,12 @@ import br.edu.ifsc.univerg.model.AuxClass;
 import br.edu.ifsc.univerg.model.ProfessorModel;
 
 public class ProfessorDAO {
+	public void erro(String msg){
+		JOptionPane erro = new JOptionPane(msg,JOptionPane.ERROR_MESSAGE);
+		JDialog jd = erro.createDialog("Ocorreu um Erro!");
+		jd.setAlwaysOnTop(true);
+		jd.setVisible(true);
+	}
 	public boolean login(String login, String senha) {
 		boolean volta = false;
 		
@@ -29,11 +36,11 @@ public class ProfessorDAO {
 
 				ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
-					JOptionPane.showMessageDialog(null, "Acesso Permetido!");
+					AuxClass.setAux("");
 					volta = true;
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Login e Senha Incorretos!");
+					erro("Login e(ou) Senha Incorretos!");
 					volta = false;
 				}
 			} catch (SQLException | HeadlessException ex) {

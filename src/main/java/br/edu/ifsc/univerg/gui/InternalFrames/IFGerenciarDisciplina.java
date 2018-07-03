@@ -136,12 +136,12 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 					new Color(0, 153, 51)));
 			jpCadastro.setBounds(19, 39, 529, 570);
 			jpCadastro.setLayout(null);
+			jpCadastro.add(getJcbCurso());
 			jpCadastro.add(getJtfNome());
 			jpCadastro.add(getJlbNome());
 			jpCadastro.add(getJlbLogin());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJcbCurso());
 			jpCadastro.add(getJtaEmenta());
 			
 			JLabel jlEmenta = new JLabel("Ementa:");
@@ -409,6 +409,7 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 	private JTable getJtTabela() {
 		if (jtTabela == null) {
 			jtTabela = new JTable();
+			jtTabela.setForeground(Color.WHITE);
 			jtTabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jspTabela.getViewport().setBackground(Color.darkGray);
 			jtTabela.setBackground(Color.darkGray);
@@ -438,6 +439,7 @@ public class IFGerenciarDisciplina extends JInternalFrame {
 		if (jcbCurso == null) {
 			jcbCurso = new JComboBox();
 			jcbCurso.setBounds(91, 66, 274, 28);
+			
 		}
 		return jcbCurso;
 	}
