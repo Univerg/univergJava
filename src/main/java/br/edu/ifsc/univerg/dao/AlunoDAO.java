@@ -32,11 +32,11 @@ public class AlunoDAO {
 
 				ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
-					JOptionPane.showMessageDialog(null, "Acesso Permetido!");
+					AuxClass.setAux("");
 					volta = true;
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Login e Senha Incorretos!");
+					erro("Login e(ou) Senha Incorretos!");
 					volta = false;
 				}
 			} catch (SQLException | HeadlessException ex) {

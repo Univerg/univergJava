@@ -87,6 +87,7 @@ public class FrameAluno extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFAvaliacoes test;
 					try {
+						jpPanel.removeAll();
 						test = new IFAvaliacoes();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -112,6 +113,7 @@ public class FrameAluno extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					IFEmentas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFEmentas();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -135,6 +137,7 @@ public class FrameAluno extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFNotas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFNotas();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -159,6 +162,7 @@ public class FrameAluno extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFRematriculas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFRematriculas();
 						jpPanel.add(test);
 						test.setVisible(true);

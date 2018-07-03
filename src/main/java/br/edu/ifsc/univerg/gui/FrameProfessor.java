@@ -82,6 +82,7 @@ public class FrameProfessor extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarAvaliacoes test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarAvaliacoes();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -107,6 +108,7 @@ public class FrameProfessor extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					IFGerenciarNotas test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarNotas();
 						jpPanel.add(test);
 						test.setVisible(true);
@@ -136,6 +138,7 @@ public class FrameProfessor extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					IFGerenciarEmenta test;
 					try {
+						jpPanel.removeAll();
 						test = new IFGerenciarEmenta();
 						jpPanel.add(test);
 						test.setVisible(true);
