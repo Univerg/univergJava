@@ -40,9 +40,32 @@ public class AlunoDAO {
 			// TODO Auto-generated catch block
 			erro(e1.getMessage().toString());
 		}
+	}
+		public void selectDadosAluno2(String login){
+			   Connection con;
+			  String result = null ;
+			try {
+				con =  Conexao.abrir();			
+			       try {
+			           Statement st = con.createStatement();
+			           ResultSet rs = st.executeQuery("select aluno.id from aluno where login = '"+login+"'");
+			           while(rs.next()){
+			        	  result= rs.getString("aluno.id");
+			           }
+			           rs.close();
+			           st.close();
+			           con.close();
+			       } catch (SQLException e) {
+			    	   erro(e.getMessage().toString());
+			           
+			       }
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				erro(e1.getMessage().toString());
+			}
 		     
 	       
-	       AuxClass.setAuxaluno(result);
+	       AuxClass.setAuxalunoid(result);
 	   }
 	public boolean login(String login, String senha) {
 		boolean volta = false;
@@ -105,6 +128,7 @@ public class AlunoDAO {
 
 		return strList;
 	}
+	
 	
 	public void incluirAluno (AlunoModel aluno){
 		Connection con;

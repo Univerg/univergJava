@@ -16,7 +16,6 @@ import com.towel.swing.img.JImagePanel;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFAvaliacoes;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFEmentas;
 import br.edu.ifsc.univerg.gui.InternalFrames.IFNotas;
-import br.edu.ifsc.univerg.gui.InternalFrames.IFRematriculas;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -36,7 +35,6 @@ public class FrameAluno extends JFrame {
 	private JButton jbtAvaliacoes;
 	private JButton jbtEmentas;
 	private JButton jbtNotas;
-	private JButton jbtRematricula;
 	private JImagePanel jpBotoes;
 	private JImagePanel jpPanel;
 	private JButton jbtSair;
@@ -154,30 +152,6 @@ public class FrameAluno extends JFrame {
 		}
 		return jbtNotas;
 	}
-	private JButton getJbtRematricula() {
-		if (jbtRematricula == null) {
-			jbtRematricula = new JButton("Rematricula");
-			jbtRematricula.setBounds(0, 153, 183, 45);
-			jbtRematricula.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					IFRematriculas test;
-					try {
-						jpPanel.removeAll();
-						test = new IFRematriculas();
-						jpPanel.add(test);
-						test.setVisible(true);
-					} catch (Throwable e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			});
-			jbtRematricula.setForeground(new Color(255, 255, 255));
-			jbtRematricula.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jbtRematricula.setBackground(new Color(0, 153, 51));
-		}
-		return jbtRematricula;
-	}
 	private JImagePanel getJpBotoes()  throws Throwable{
 		if (jpBotoes == null) {
 			jpBotoes = new JImagePanel((loadImage("bot.jpg")));
@@ -185,7 +159,6 @@ public class FrameAluno extends JFrame {
 			jpBotoes.add(getJbtAvaliacoes());
 			jpBotoes.add(getJbtEmentas());
 			jpBotoes.add(getJbtNotas());
-			jpBotoes.add(getJbtRematricula());
 			jpBotoes.add(getJbtSair());
 		}
 		return jpBotoes;

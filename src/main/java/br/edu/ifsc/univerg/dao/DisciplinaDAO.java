@@ -59,6 +59,7 @@ public class DisciplinaDAO {
 				ps.execute();
 				ps.close();
 				con.close();
+				incluirAlunosDisc();
 				AuxClass.setAux("");
 				AuxClass.setVal(false);
 				JOptionPane.showMessageDialog(null, "Disciplina Cadastrada");
@@ -72,6 +73,54 @@ public class DisciplinaDAO {
 		}
 		
 	}
+	public void incluirAlunosDisc (){
+		Connection con;
+		try {
+			con = Conexao.abrir();
+			String sql = "INSERT INTO `univerg`.`nota` (`id_aluno`, `id_turma`, `id_disciplina`, `nota1`, `nota2`, `nota3`) "
+					+ "SELECT  DISTINCT aluno.id,turma.id,disciplina.id,'0','0','0' from aluno INNER JOIN turma ON (aluno.id_turma=turma.id) "
+					+ "INNER JOIN curso ON (turma.id_curso=curso.id) "
+					+ "INNER JOIN disciplina ON (disciplina.id_curso=curso.id)";
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.execute();
+				ps.close();
+				con.close();
+
+			} catch (Exception e) {
+				erro(e.getMessage().toString());
+
+			}
+		} catch (Exception e) {
+			erro(e.getMessage().toString());
+		}
+		
+	}
+	public void deletarrAlunosDisc (){
+		Connection con;
+		try {
+			con = Conexao.abrir();
+			String sql = "DELETE a FROM nota AS a, nota AS b WHERE a.id_aluno=b.id_aluno AND "
+					+ "a.id_turma=b.id_turma AND "
+					+ "a.id_disciplina=b.id_disciplina AND "
+					+ "a.id < b.id";
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.execute();
+				ps.close();
+				con.close();
+				deletarrAlunosDisc();
+
+			} catch (Exception e) {
+				erro(e.getMessage().toString());
+
+			}
+		} catch (Exception e) {
+			erro(e.getMessage().toString());
+		}
+		
+	}
+	
 	
 	public List<String> busca_curso() {
 		List<String> strList = new ArrayList<String>();
@@ -210,7 +259,7 @@ public class DisciplinaDAO {
 					AuxClass.setAux("");
 					AuxClass.setAux2("");
 					AuxClass.setVal(false);
-					JOptionPane.showMessageDialog(null, "Admin Alterado!");
+					JOptionPane.showMessageDialog(null, "Disciplina Alterado!");
 
 				} catch (Exception e) {
 					erro(e.getMessage().toString());

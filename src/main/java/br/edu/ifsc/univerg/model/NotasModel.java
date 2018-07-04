@@ -17,6 +17,15 @@ public class NotasModel {
 		this.nota3 = nota3;
 	}
 	
+	public NotasModel(String disciplina,float nota1, float nota2, float nota3) {
+		super();
+		this.disciplina = disciplina;
+		this.nota1 = nota1;
+		this.nota2 = nota2;
+		this.nota3 = nota3;
+		
+	}
+
 	public NotasModel(String nomeAluno, String matriculaAluno) {
 		super();
 		this.nomeAluno = nomeAluno;

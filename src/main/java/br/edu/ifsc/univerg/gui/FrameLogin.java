@@ -123,9 +123,20 @@ public class FrameLogin extends JFrame {
 	private JButton getJbtCancelar() {
 		if (jbtCancelar == null) {
 			jbtCancelar = new JButton("Cancelar");
+			jbtCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+					try {
+						new FrameSelecao().setVisible(true);
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
 			jbtCancelar.setForeground(new Color(0, 128, 0));
 			jbtCancelar.setFont(new Font("Dialog", Font.BOLD, 14));
-			jbtCancelar.setBounds(333, 202, 90, 24);
+			jbtCancelar.setBounds(292, 202, 131, 24);
 		}
 		return jbtCancelar;
 	}
@@ -167,6 +178,7 @@ public class FrameLogin extends JFrame {
 					else if ( AuxClass.getAux().equals("3")){
 						try {
 							aluno.selectDadosAluno(jtfLogin.getText());
+							aluno.selectDadosAluno2(jtfLogin.getText());
 							if(aluno.login(jtfLogin.getText(), String.valueOf(jtfSenha.getPassword()))) {
 								dispose();
 								new FrameAluno();
@@ -181,7 +193,7 @@ public class FrameLogin extends JFrame {
 			});
 			jbtLogin.setForeground(new Color(0, 128, 0));
 			jbtLogin.setFont(new Font("Dialog", Font.BOLD, 14));
-			jbtLogin.setBounds(216, 202, 96, 24);
+			jbtLogin.setBounds(158, 202, 124, 24);
 		}
 		return jbtLogin;
 	}

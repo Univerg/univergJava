@@ -166,7 +166,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 		// carrega pessoas da lista
 		for (NotasModel nm : dados) {
 			// inclui uma linha na tabela
-			model.addRow(new Object[] { nm.getNomeAluno(),nm.getMatriculaAluno(),nm.getNota1(),nm.getNota2(),nm.getNota3() });
+			model.addRow(new Object[] { nm.getNomeAluno(),nm.getMatriculaAluno(),nm.getNota1(),nm.getNota2(),nm.getNota3(),((nm.getNota1()+nm.getNota2()+nm.getNota3())/3) });
 		}
 	}
 	private JLabel getJlbDisciplina() {
@@ -354,6 +354,7 @@ public class IFGerenciarNotas extends JInternalFrame {
 	                	NotasDAO dao = new NotasDAO();
 						dao.busca_aluno();
 						AuxClass.setAux(e.getItem().toString());
+						AuxClass.setAux2(jcbTurma.getSelectedItem().toString());
 						carregarALunos();
 	                }
 	                    

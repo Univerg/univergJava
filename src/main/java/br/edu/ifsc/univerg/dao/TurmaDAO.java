@@ -136,7 +136,7 @@ public class TurmaDAO {
 				AuxClass.setAux("");
 				AuxClass.setAux2("");
 				AuxClass.setVal(false);
-				JOptionPane.showMessageDialog(null, "Admin Alterado!");
+				JOptionPane.showMessageDialog(null, "Turma Alterada!");
 
 			} catch (Exception e) {
 				erro(e.getMessage().toString());

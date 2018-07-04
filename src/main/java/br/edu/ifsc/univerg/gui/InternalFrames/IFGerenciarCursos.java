@@ -51,8 +51,6 @@ public class IFGerenciarCursos extends JInternalFrame {
 	private JButton jbtNovo;
 	private JTextField jtfBusca;
 	private JLabel jlBuscar;
-	private JTextField jtfId;
-	private JLabel jlId;
 	private JButton jbtAlterar;
 	private JButton jbtDeletar;
 	private JScrollPane jspTabela;
@@ -118,8 +116,6 @@ public class IFGerenciarCursos extends JInternalFrame {
 			jpCadastro.add(getLblNome());
 			jpCadastro.add(getJbtSalvar());
 			jpCadastro.add(getJbtNovo());
-			jpCadastro.add(getJtfId());
-			jpCadastro.add(getJlId());
 		}
 		return jpCadastro;
 	}
@@ -156,7 +152,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 		if (jtfNome == null) {
 			jtfNome = new JTextField();
 			jtfNome.setColumns(10);
-			jtfNome.setBounds(88, 65, 908, 28);
+			jtfNome.setBounds(77, 28, 908, 28);
 			jtfNome.setDocument(new ValidarLetra(50));
 			
 		}
@@ -167,7 +163,7 @@ public class IFGerenciarCursos extends JInternalFrame {
 			lblNome = new JLabel("Nome:");
 			lblNome.setFont(new Font("SansSerif", Font.BOLD, 13));
 			lblNome.setForeground(new Color(0, 153, 51));
-			lblNome.setBounds(21, 70, 55, 16);
+			lblNome.setBounds(10, 33, 55, 16);
 		}
 		return lblNome;
 	}
@@ -256,24 +252,6 @@ public class IFGerenciarCursos extends JInternalFrame {
 			jlBuscar.setBounds(25, 42, 55, 16);
 		}
 		return jlBuscar;
-	}
-	private JTextField getJtfId() {
-		if (jtfId == null) {
-			jtfId = new JTextField();
-			jtfId.setEditable(false);
-			jtfId.setColumns(10);
-			jtfId.setBounds(88, 26, 94, 28);
-		}
-		return jtfId;
-	}
-	private JLabel getJlId() {
-		if (jlId == null) {
-			jlId = new JLabel("Id:");
-			jlId.setForeground(new Color(0, 153, 51));
-			jlId.setFont(new Font("SansSerif", Font.BOLD, 13));
-			jlId.setBounds(21, 32, 55, 16);
-		}
-		return jlId;
 	}
 	private JButton getJbtAlterar() {
 		if (jbtAlterar == null) {

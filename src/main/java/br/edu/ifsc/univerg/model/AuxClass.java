@@ -4,11 +4,20 @@ public class AuxClass {
 	static String aux;
 	static String aux2;
 	static String auxaluno;
+	static String auxalunoid;
 	static Boolean val=false;
 
 	
 	public static String getAuxaluno() {
 		return auxaluno;
+	}
+
+	public static String getAuxalunoid() {
+		return auxalunoid;
+	}
+
+	public static void setAuxalunoid(String auxalunoid) {
+		AuxClass.auxalunoid = auxalunoid;
 	}
 
 	public static void setAuxaluno(String auxaluno) {

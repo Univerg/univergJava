@@ -91,6 +91,7 @@ public class NotasDAO {
 	}
 	public List<String> busca_disciplina() {
 		List<String> strList = new ArrayList<String>();
+		strList.add("___");
 		try {
 			Connection con = Conexao.abrir();
 			try {
@@ -116,14 +117,53 @@ public class NotasDAO {
 		return strList;
 	}
 	public List<NotasModel> busca_aluno() {
+		
 		List<NotasModel> strList =  new ArrayList<NotasModel>();
 		try {
 			Connection con = Conexao.abrir();
 			try {
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery("SELECT aluno.nome as nomeALuno ,CONCAT (aluno.prefix,aluno.id) as matricula , nota.nota1, nota.nota2,nota.nota3 from aluno INNER JOIN turma INNER JOIN curso INNER JOIN disciplina INNER JOIN nota where turma.id_curso=curso.id and disciplina.id_curso=curso.id and aluno.id_turma=turma.id and nota.id_aluno=aluno.id and disciplina.nome='"+ AuxClass.getAux() + "'");
+				ResultSet rs = st.executeQuery("SELECT   aluno.nome as nomeALuno , CONCAT (aluno.prefix,aluno.id) as matricula , "
+						+ "nota.nota1, nota.nota2,nota.nota3 from aluno "
+						+ "INNER JOIN turma ON (aluno.id_turma=turma.id) "
+						+ "INNER JOIN curso ON (turma.id_curso=curso.id) "
+						+ "INNER JOIN disciplina ON (disciplina.id_curso=curso.id) "
+						+ "INNER JOIN nota on (nota.id_disciplina=disciplina.id and nota.id_aluno=aluno.id) "
+						+ "where  disciplina.nome='"+ AuxClass.getAux() + "' and CONCAT (turma.prefix,turma.id)='"
+						+ AuxClass.getAux2()+"'");
+				
 				while (rs.next()) {
 					NotasModel nm =new NotasModel(rs.getString("nomeALuno"),rs.getString("matricula"),rs.getFloat("nota.nota1"),rs.getFloat("nota.nota2"),rs.getFloat("nota.nota3"));
+					strList.add(nm);
+				}
+				rs.close();
+				st.close();
+				AuxClass.setAux("");
+				AuxClass.setAux2("");
+
+			} catch (Exception e) {
+				erro(e.getMessage().toString());
+			}
+		} catch (Exception e) {
+			erro(e.getMessage().toString());
+		}
+		
+
+		return strList;
+	}
+public List<NotasModel> buscaNota_aluno() {
+		
+		List<NotasModel> strList =  new ArrayList<NotasModel>();
+		try {
+			Connection con = Conexao.abrir();
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery("select disciplina.nome, nota1,nota2, nota3 from nota "
+						+ "INNER JOIN disciplina on (nota.id_disciplina=disciplina.id) "
+						+ "INNER JOIN aluno on (nota.id_aluno= aluno.id) where aluno.id= "+AuxClass.getAuxalunoid()+" and nota.id_turma= '"+AuxClass.getAux()+"'");
+				
+				while (rs.next()) {
+					NotasModel nm =new NotasModel(rs.getString("disciplina.nome"),rs.getFloat("nota.nota1"),rs.getFloat("nota.nota2"),rs.getFloat("nota.nota3"));
 					strList.add(nm);
 				}
 				rs.close();
@@ -142,6 +182,7 @@ public class NotasDAO {
 	}
 	public List<String> busca_turma() {
 		List<String> strList = new ArrayList<String>();
+		strList.add("___");
 		try {
 			Connection con = Conexao.abrir();
 			try {
